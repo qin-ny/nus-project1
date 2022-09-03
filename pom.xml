@@ -14,7 +14,7 @@
 	<name>project1</name>
 	<description>project1 of team1 in iss nus</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
