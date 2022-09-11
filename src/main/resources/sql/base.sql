@@ -4,21 +4,19 @@ SET character_set_database='utf8';
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
-CREATE TABLE IF NOT EXISTS `User`  (
+CREATE TABLE `User` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `NRIC_FIN` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci,
-  `phone_number` int(20),
-  `gender` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci,
-  `email` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `NRIC_FIN` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `phone_number` int(20) DEFAULT NULL,
+  `gender` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `email` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `username` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `password` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `type` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `username`(`username`) USING BTREE,
-  UNIQUE INDEX `NRIC_FIN`(`NRIC_FIN`) USING BTREE,
-  UNIQUE INDEX `name`(`name`) USING BTREE,
-  UNIQUE INDEX `email`(`email`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  UNIQUE KEY `username` (`username`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC
 
 
 CREATE TABLE IF NOT EXISTS `Customer`  (

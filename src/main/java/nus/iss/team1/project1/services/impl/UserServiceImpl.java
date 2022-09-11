@@ -1,9 +1,12 @@
 package nus.iss.team1.project1.services.impl;
 
+import nus.iss.team1.project1.models.User;
 import nus.iss.team1.project1.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import nus.iss.team1.project1.dao.UserDao;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,13 +20,55 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int create(String userName,String password,String type){
-        //check if userName already exist, if do, return -1
-        int cnt = userDAO.checkExist(userName);
-        if(cnt > 0){
+    public int create(String userName,String password,String name,String gender,String phone, String email,String NRIC,String type){
+        //check if user already exist, if do, return -1
+        int userNamecnt = userDAO.checkUserNameExist(userName);
+        if(userNamecnt > 0){
             return -1;
         }
-        userDAO.create(userName, password,type);
+        int phonecnt = userDAO.checkPhoneExist(phone,type);
+        if(phonecnt > 0){
+            return -2;
+        }
+        int NRICcnt = userDAO.checkNRICExist(NRIC,type);
+        if(NRICcnt > 0){
+            return -3;
+        }
+        int emailcnt = userDAO.checkEmailExist(email,type);
+        if(emailcnt > 0){
+            return -4;
+        }
+        userDAO.create(userName, password,name,gender,phone,email,NRIC,type);
+        return 1;
+    }
+
+    @Override
+    public List<User> getUser(String userName, String password, String type){
+        return userDAO.getUser(userName,password,type);
+    }
+
+    @Override
+    public int modifyUser(String userName,String gender,String phone,String email,String NRIC,String type){
+        //check if user already exist, if do, return -1
+        int userNamecnt = userDAO.checkUserNameExistModify(userName,NRIC);
+        if(userNamecnt > 0){
+            return -1;
+        }
+        int phonecnt = userDAO.checkPhoneExistModify(phone,type,NRIC);
+        if(phonecnt > 0){
+            return -2;
+        }
+        int emailcnt = userDAO.checkEmailExistModify(email,type,NRIC);
+        if(emailcnt > 0){
+            return -3;
+        }
+        userDAO.modify(userName, gender,phone,email,NRIC,type);
+        return 1;
+    }
+
+    @Override
+    public int modifyPassword(String userName,String password){
+        userDAO.modifyPassword(userName,password);
         return 1;
     }
 }
