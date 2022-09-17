@@ -16,7 +16,7 @@ CREATE TABLE `User` (
   `type` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `username` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 
 CREATE TABLE IF NOT EXISTS `Customer`  (
@@ -29,18 +29,17 @@ CREATE TABLE IF NOT EXISTS `Customer`  (
   CONSTRAINT `customer_user_id_1eaea1b2_fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
-
-CREATE TABLE IF NOT EXISTS `Canteen`  (
+CREATE TABLE `Canteen` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `star` int(2) DEFAULT NULL,
-  `description` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `star` decimal(2,1) DEFAULT NULL,
+  `description` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `user_id` int(10) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `name`(`name`) USING BTREE,
-  INDEX `canteen_user_id_1edawgewe_fk_user_id`(`user_id`) USING BTREE,
-  CONSTRAINT `canteen_user_id_1edawgewe_fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  UNIQUE KEY `name` (`name`) USING BTREE,
+  KEY `canteen_user_id_1edawgewe_fk_user_id` (`user_id`) USING BTREE,
+  CONSTRAINT `canteen_user_id_1edawgewe_fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 
 CREATE TABLE IF NOT EXISTS `Comment`  (
@@ -72,21 +71,20 @@ CREATE TABLE IF NOT EXISTS `Order`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 
-CREATE TABLE IF NOT EXISTS `Dish`  (
+CREATE TABLE `Dish` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `price` double(20, 3) NOT NULL,
-  `stock` int(10) NOT NULL DEFAULT 0,
-  `descrption` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci,
-  `availability` tinyint(1) NOT NULL DEFAULT 1,
+  `price` double(20,3) NOT NULL,
+  `stock` int(10) NOT NULL DEFAULT '0',
+  `description` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `availability` tinyint(1) NOT NULL DEFAULT '1',
   `type` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `sales_num_thirty` int(10) NOT NULL DEFAULT 0,
+  `sales_num_thirty` int(10) NOT NULL DEFAULT '0',
   `canteen_id` int(10) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `name`(`name`) USING BTREE,
-  INDEX `Dish_canteen_id_asdl232kasd_fk_canteen_id`(`canteen_id`) USING BTREE,
-  CONSTRAINT `Dish_canteen_id_asdl232kasd_fk_canteen_id` FOREIGN KEY (`canteen_id`) REFERENCES `Canteen` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  KEY `Dish_canteen_id_asdl232kasd_fk_canteen_id` (`canteen_id`) USING BTREE,
+  CONSTRAINT `Dish_canteen_id_asdl232kasd_fk_canteen_id` FOREIGN KEY (`canteen_id`) REFERENCES `canteen` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 
 CREATE TABLE IF NOT EXISTS `OrderItem`  (
