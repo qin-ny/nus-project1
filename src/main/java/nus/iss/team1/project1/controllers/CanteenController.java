@@ -57,7 +57,7 @@ public class CanteenController {
 
     @ResponseBody
     @RequestMapping(value = "/getCanteen",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
-    public JSONObject getUser(@RequestBody String json) {
+    public JSONObject getCanteen(@RequestBody String json) {
         JSONObject resObject = new JSONObject();
         try{
             json = new String(json.getBytes(), Charset.forName("utf-8"));
