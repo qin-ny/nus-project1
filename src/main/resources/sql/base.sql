@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `Order`  (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `order_time` datetime NOT NULL,
   `total_fee` double(20, 3) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 0,
+  `status` int(1) NOT NULL DEFAULT 0,
   `user_id` int(10) NOT NULL,
   `canteen_id` int(10) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,

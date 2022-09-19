@@ -12,14 +12,16 @@ import java.util.List;
 @Repository
 public interface OrderDao {
 
-    @Insert(" <script>"  +
-            "insert into Dish (name,price,description,type,canteen_id)" +
-            " values (#{name},#{price},#{description},#{type},#{canteenID})" +
-            " </script>")
-    public void create(@Param("name") String name, @Param("price") double price,
-                       @Param("description") String description, @Param("type") String type,
-                       @Param("canteenID") String canteenID);
+//    @Select("select count(*) from Order where username = #{userName}")
+//    public Integer checkUserNameExist(@Param("userName")String userName);
 
+    @Insert(" <script>"  +
+            "insert into Project1.Order (order_time,total_fee,status,canteen_id,user_id)" +
+            " values (#{order_time},#{total_fee},#{status},#{canteenID},#{userID})" +
+            " </script>")
+    public void create(@Param("order_time") String order_time, @Param("total_fee") double totalFee,
+                       @Param("status") Integer status, @Param("canteenID") Integer canteenID,
+                       @Param("userID") Integer userID);
 
     @Select(" <script>"  +
             " select id,create_time,order_time,total_fee,status,user_id,canteen_id from Project1.Order where 1=1" +
@@ -35,7 +37,7 @@ public interface OrderDao {
             " order by order_time ${order}" +
             " </script>" )
     public List<Order> getOrder(@Param("canteenID") String canteenID, @Param("userID") String userID,
-                                @Param("status")String status, @Param("order") String order);
+                                @Param("status") String status, @Param("order") String order);
 
     @Update(" <script>"  +
             " update Project1.Order set status = #{status} where id = #{orderID}" +

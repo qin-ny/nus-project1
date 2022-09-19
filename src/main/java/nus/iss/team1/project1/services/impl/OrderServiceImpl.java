@@ -13,19 +13,14 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderDao orderDao;
 
-//    @Override
-//    public int create(String name, double price, String description, String type, String canteenID){
-//        //check if user already exist, if do, return -1
-//        int cnt = dishDao.checkDishExist(name,canteenID) ;
-//        if(cnt > 0 ){
-//            return -1;
-//        }
-//        dishDao.create(name, price,description,type,canteenID);
-//        return 1;
-//    }
+    @Override
+    public int create(String orderTime, double totalFee, Integer status, Integer canteenID, Integer userID){
+        orderDao.create(orderTime,totalFee,status,canteenID,userID);
+        return 1;
+    }
 
     @Override
-    public List<Order> getOrder(String canteenID, String userID,String status, String orderType){
+    public List<Order> getOrder(String canteenID, String userID, String status, String orderType){
         String order;
         if(orderType!= null&& orderType.equals("1")){
              order = "asc";
