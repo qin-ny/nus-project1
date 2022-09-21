@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface CanteenService {
     public int create(String name, String description, String userID);
-    public List<Canteen> getCanteen(String userID,String orderType);
+    public List<Canteen> getCanteen(String userID,String orderType,String keyword);
 //    public int updateStar(String id, String star。。。。);
 }

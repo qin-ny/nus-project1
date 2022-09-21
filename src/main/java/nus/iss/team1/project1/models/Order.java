@@ -3,6 +3,8 @@ package nus.iss.team1.project1.models;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class Order {
     private Integer id;
@@ -12,4 +14,5 @@ public class Order {
     private Integer status;
     private Integer user_id;
     private Integer canteen_id;
+    private List<OrderItem> orderItems;
 }

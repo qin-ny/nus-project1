@@ -21,7 +21,7 @@ public class CanteenController {
     private CanteenService canteenService;
     //canteen create
     @ResponseBody
-    @RequestMapping(value = "/create",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     public JSONObject create(@RequestBody String json) {
         JSONObject resObject = new JSONObject();
         try{
@@ -56,7 +56,7 @@ public class CanteenController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/getCanteen",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
     public JSONObject getCanteen(@RequestBody String json) {
         JSONObject resObject = new JSONObject();
         try{
@@ -64,8 +64,9 @@ public class CanteenController {
             JSONObject jsonObject = JSONObject.parseObject(json);
             String userID = jsonObject.getString("userID");
             String orderType = jsonObject.getString("orderType");
+            String keyword = jsonObject.getString("keyword");
 
-            List<Canteen> list = canteenService.getCanteen(userID,orderType);
+            List<Canteen> list = canteenService.getCanteen(userID,orderType,keyword);
             resObject.put("resultCode",1);
             resObject.put("msg","Query Success");
             resObject.put("content",JSON.toJSON(list));

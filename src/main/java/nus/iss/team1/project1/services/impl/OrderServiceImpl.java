@@ -14,13 +14,20 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
 
     @Override
-    public int create(String orderTime, double totalFee, Integer status, Integer canteenID, Integer userID){
-        orderDao.create(orderTime,totalFee,status,canteenID,userID);
-        return 1;
+    public Order create(String orderTime, double totalFee, Integer status, Integer canteenID, Integer userID){
+        Order order = new Order();
+        order.setOrder_time(orderTime);
+        order.setTotal_fee(totalFee);
+        order.setStatus(status);
+        order.setCanteen_id(canteenID);
+        order.setUser_id(userID);
+        orderDao.create(order);
+//        orderDao.create(orderTime,totalFee,status,canteenID,userID);
+        return order;
     }
 
     @Override
-    public List<Order> getOrder(String canteenID, String userID, String status, String orderType){
+    public List<Order> get(String canteenID, String userID, String status, String orderType){
         String order;
         if(orderType!= null&& orderType.equals("1")){
              order = "asc";
@@ -28,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
         else{
             order = "desc";
         }
-        return orderDao.getOrder(canteenID,userID,status,order);
+        return orderDao.get(canteenID,userID,status,order);
     }
 
     @Override

@@ -21,7 +21,7 @@ public class DishController {
     private DishService dishService;
     //canteen create
     @ResponseBody
-    @RequestMapping(value = "/create",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     public JSONObject create(@RequestBody String json) {
         JSONObject resObject = new JSONObject();
         try{

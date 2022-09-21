@@ -27,9 +27,12 @@ public interface CanteenDao {
             " <when test='userID!=null'>" +
             " and user_id = #{userID}" +
             " </when>" +
+            " <when test='keyword!=null'>" +
+            " and name like #{keyword} " +
+            " </when>" +
             " <when test='orderType!=null'>" +
             " order by star desc " +
             " </when>" +
             " </script>" )
-    public List<Canteen> getCanteen(@Param("userID") String userID,@Param("orderType") String orderType);
+    public List<Canteen> getCanteen(@Param("userID") String userID,@Param("orderType") String orderType,@Param("keyword") String keyword);
 }
