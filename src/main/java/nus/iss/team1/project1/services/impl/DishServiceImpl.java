@@ -41,4 +41,17 @@ public class DishServiceImpl implements DishService {
         }
         return dishDao.getDish(canteenID,type);
     }
+
+    @Override
+    public int update(Integer id, String name, String price, String description, String type){
+//        if (name!=null || price!=0.0D || description != null || type != null) {
+//
+//        }
+        double newPrice = -1;
+        if (price!=null) {
+            newPrice = Double.parseDouble(price);
+        }
+        dishDao.update(id, name, newPrice, description, type);
+        return id;
+    }
 }

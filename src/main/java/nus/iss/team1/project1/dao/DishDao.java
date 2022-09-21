@@ -4,6 +4,7 @@ import nus.iss.team1.project1.models.Dish;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,6 +23,26 @@ public interface DishDao {
     public void create(@Param("name") String name, @Param("price") double price,
                        @Param("description") String description, @Param("type") String type,
                        @Param("canteenID") String canteenID);
+
+    @Update(" <script>"  +
+            " update Dish set id=#{id} " +
+            " <when test='name!=null'>" +
+            " ,name = #{name}" +
+            " </when>" +
+            " <when test='price!=-1'>" +
+            " ,price = #{price}" +
+            " </when>" +
+            " <when test='description!=null'>" +
+            " ,description = #{description}" +
+            " </when>" +
+            " <when test='type!=null'>" +
+            " ,type = #{type}" +
+            " </when>" +
+            " where id = #{id}" +
+            " </script>" )
+    public void update(@Param("id") Integer id, @Param("name")String name,
+                       @Param("price") double price, @Param("description") String description,
+                       @Param("type") String type);
 
 
     @Select(" <script>"  +
