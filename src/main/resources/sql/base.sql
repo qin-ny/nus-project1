@@ -45,6 +45,7 @@ CREATE TABLE `Canteen` (
 CREATE TABLE IF NOT EXISTS `Comment`  (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `comment` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `star` float(2) NOT NULL,
   `user_id` int(10) NOT NULL,
   `canteen_id` int(10) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,

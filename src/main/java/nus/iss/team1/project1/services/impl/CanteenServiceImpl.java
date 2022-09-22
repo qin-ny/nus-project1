@@ -25,10 +25,17 @@ public class CanteenServiceImpl implements CanteenService {
     }
 
     @Override
-    public List<Canteen> getCanteen(String userID,String orderType, String keyword){
+    public List<Canteen> get(String userID,String orderType, String keyword){
         if(keyword != null) {
             keyword = "%" + keyword + "%";
         }
-        return canteenDao.getCanteen(userID,orderType,keyword);
+        return canteenDao.get(userID,orderType,keyword);
     }
+
+    @Override
+    public int update(Integer id, String name, String description) {
+        canteenDao.update(id, name, description);
+        return id;
+    }
+
 }

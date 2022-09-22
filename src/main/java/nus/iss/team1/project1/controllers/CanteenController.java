@@ -57,7 +57,7 @@ public class CanteenController {
 
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
-    public JSONObject getCanteen(@RequestBody String json) {
+    public JSONObject get(@RequestBody String json) {
         JSONObject resObject = new JSONObject();
         try{
             json = new String(json.getBytes(), Charset.forName("utf-8"));
@@ -66,7 +66,7 @@ public class CanteenController {
             String orderType = jsonObject.getString("orderType");
             String keyword = jsonObject.getString("keyword");
 
-            List<Canteen> list = canteenService.getCanteen(userID,orderType,keyword);
+            List<Canteen> list = canteenService.get(userID,orderType,keyword);
             resObject.put("resultCode",1);
             resObject.put("msg","Query Success");
             resObject.put("content",JSON.toJSON(list));
@@ -80,5 +80,6 @@ public class CanteenController {
         }
         return resObject;
     }
+
 
 }

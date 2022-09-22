@@ -56,12 +56,12 @@ public class DishController {
 
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
-    public JSONObject getDish(@RequestParam(name = "canteen_id", required = false) String canteenID,
+    public JSONObject get(@RequestParam(name = "canteen_id", required = false) String canteenID,
                               @RequestParam(name = "type", required = false) String type,
                               @RequestParam(name = "order_type", required = false) String orderType) {
         JSONObject resObject = new JSONObject();
         try{
-            List<Dish> list = dishService.getDish(canteenID,type,orderType);
+            List<Dish> list = dishService.get(canteenID,type,orderType);
             resObject.put("resultCode",1);
             resObject.put("msg","Query Success");
             resObject.put("content",JSON.toJSON(list));
@@ -98,6 +98,29 @@ public class DishController {
             resObject.put("resultCode",-2);
             resObject.put("msg","Internal Fail");
             resObject.put("content",e.getMessage());
+            System.out.println("Internal Fail,"+e.getMessage());
+        }
+        return resObject;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = {
+            "{id}"
+    },method = RequestMethod.DELETE,produces = "application/json; charset=utf-8")
+
+    public JSONObject delete(@PathVariable(value = "id", required = false) List<String> idList) {
+        JSONObject resObject = new JSONObject();
+        try{
+            for (String id: idList) {
+                dishService.delete(Integer.parseInt(id));
+            }
+            resObject.put("resultCode",1);
+            resObject.put("msg","Delete Success");
+            return resObject;
+        }
+        catch (Exception e){
+            resObject.put("resultCode",-2);
+            resObject.put("msg","Internal Fail");
             System.out.println("Internal Fail,"+e.getMessage());
         }
         return resObject;

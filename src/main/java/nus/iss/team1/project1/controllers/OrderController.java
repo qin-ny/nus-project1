@@ -26,7 +26,7 @@ public class OrderController {
 
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
-    public JSONObject createOrder(@RequestBody String json) {
+    public JSONObject create(@RequestBody String json) {
         JSONObject resObject = new JSONObject();
         Order order = new Order();
 //        List<OrderItem> savedOrderItems = new ArrayList<OrderItem>();

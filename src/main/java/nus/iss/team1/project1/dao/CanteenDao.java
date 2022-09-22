@@ -34,5 +34,17 @@ public interface CanteenDao {
             " order by star desc " +
             " </when>" +
             " </script>" )
-    public List<Canteen> getCanteen(@Param("userID") String userID,@Param("orderType") String orderType,@Param("keyword") String keyword);
+    public List<Canteen> get(@Param("userID") String userID,@Param("orderType") String orderType,@Param("keyword") String keyword);
+
+    @Update(" <script>"  +
+            " update Canteen set id=#{id} " +
+            " <when test='name!=null'>" +
+            " ,name = #{name}" +
+            " </when>" +
+            " <when test='description!=null'>" +
+            " ,description = #{description}" +
+            " </when>" +
+            " where id = #{id}" +
+            " </script>" )
+    public void update(@Param("id") Integer id, @Param("name")String name, @Param("description") String description);
 }

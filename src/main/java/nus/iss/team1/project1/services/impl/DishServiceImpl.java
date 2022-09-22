@@ -26,7 +26,7 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public List<Dish> getDish(String canteenID,String type, String orderType){
+    public List<Dish> get(String canteenID,String type, String orderType){
         String order;
         if(orderType!= null&& orderType.equals("1")){
              order = "asc";
@@ -54,4 +54,12 @@ public class DishServiceImpl implements DishService {
         dishDao.update(id, name, newPrice, description, type);
         return id;
     }
+
+    @Override
+    public int delete(Integer id) {
+        dishDao.delete(id);
+        return id;
+    }
+
+
 }

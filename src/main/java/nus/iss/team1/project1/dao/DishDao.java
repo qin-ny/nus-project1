@@ -1,10 +1,7 @@
 package nus.iss.team1.project1.dao;
 
 import nus.iss.team1.project1.models.Dish;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -77,7 +74,12 @@ public interface DishDao {
             " and type = #{type}" +
             " </when>" +
             " order by sales_num_thirty desc" +
-            " </script>" )
+            " </script>")
     public List<Dish> getDishOrderBySales(@Param("canteenID") String canteenID,@Param("type") String type);
+
+    @Delete(" <script>"  +
+            " delete from Dish where id = #{id}" +
+            " </script>")
+    public void delete(@Param("id") Integer id);
 
 }
