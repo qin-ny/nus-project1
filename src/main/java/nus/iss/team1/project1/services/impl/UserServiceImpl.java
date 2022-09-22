@@ -14,9 +14,9 @@ public class UserServiceImpl implements UserService {
     private UserDao userDAO;
 
     @Override
-    public int validate(String userName,String password,String type){
-        int result = userDAO.validate(userName, password,type);
-        return result;
+    public User validate(String userName,String password,String type){
+        User user = userDAO.validate(userName, password,type);
+        return user;
     }
 
     @Override

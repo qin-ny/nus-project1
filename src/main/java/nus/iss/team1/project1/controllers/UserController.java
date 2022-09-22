@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import nus.iss.team1.project1.models.User;
 import nus.iss.team1.project1.services.UserService;
+import nus.iss.team1.project1.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +30,13 @@ public class UserController {
             String password = jsonObject.getString("password");
             String type = jsonObject.getString("type");
 
-            int result = userService.validate(userName, password,type);
-            if(result == 1) {
+            User user = userService.validate(userName, password,type);
+            if(null != user) {
+                String token = JwtUtil.getoken(user);
                 resObject.put("resultCode",1);
                 resObject.put("msg","Login Success");
-                resObject.put("content","Login Success");
+                resObject.put("content",user);
+                resObject.put("token",token);
                 System.out.println("Login Success");
             }
             else {

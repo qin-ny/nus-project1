@@ -10,8 +10,9 @@ import java.util.List;
 
 @Repository
 public interface UserDao {
-    @Select("select count(*) from User where username = #{userName} or email = #{userName} and password= #{password} and type = #{type}")
-    public Integer validate(@Param("userName")String userName,@Param("password")String password,@Param("type")String type);
+    @Select("select id,name,NRIC_FIN,phone_number,gender,email,username,password,type from " +
+            "User where username = #{userName} or email = #{userName} and password= #{password} and type = #{type}")
+    public User validate(@Param("userName")String userName,@Param("password")String password,@Param("type")String type);
 
 
     @Select("select count(*) from User where username = #{userName}")
