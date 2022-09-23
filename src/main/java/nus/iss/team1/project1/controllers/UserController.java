@@ -57,7 +57,7 @@ public class UserController {
 
     //user create
     @ResponseBody
-    @RequestMapping(value = "/create",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     public JSONObject create(@RequestBody String json) {
         JSONObject resObject = new JSONObject();
         try{
@@ -115,7 +115,7 @@ public class UserController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/getUser",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
     public JSONObject getUser(@RequestBody String json) {
         JSONObject resObject = new JSONObject();
         try{
@@ -141,7 +141,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/modifyUser",method = RequestMethod.PUT,produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "",method = RequestMethod.PUT,produces = "application/json; charset=utf-8")
     public JSONObject modifyUser(@RequestBody String json) {
         JSONObject resObject = new JSONObject();
         try{
