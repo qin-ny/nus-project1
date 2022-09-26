@@ -57,19 +57,21 @@ public interface UserDao {
                 @Param("gender")String gender,@Param("phone")String phone,@Param("email")String email,@Param("NRIC")String NRIC,
                 @Param("type")String type);
 
-    @Select("select id,name,NRIC_FIN,phone_number,gender,email,username,password,type from User where 1+1" +
+    @Select(" <script>"  +
+            "select id,name,NRIC_FIN,phone_number,gender,email,username,password,type from User where 1=1" +
             " <when test='userName!=null'>" +
-            " and username = #{userName}," +
+            " and username = #{userName}" +
             " </when>" +
             " <when test='name!=null'>" +
-            " and name = #{name}," +
+            " and name = #{name}" +
             " </when>" +
             " <when test='gender!=null'>" +
-            " and gender = #{gender}," +
+            " and gender = #{gender}" +
             " </when>" +
             " <when test='type!=null'>" +
-            " and type = #{type}," +
-            " </when>")
+            " and type = #{type}" +
+            " </when>"+
+            " </script>")
     public List<User> get(@Param("userName")String userName,@Param("name")String name,@Param("gender")String gender,@Param("type")String type);
 
     @Update(" <script>"  +
