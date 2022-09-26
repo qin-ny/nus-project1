@@ -6,10 +6,7 @@ import nus.iss.team1.project1.models.Canteen;
 import nus.iss.team1.project1.services.CanteenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -57,15 +54,11 @@ public class CanteenController {
 
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
-    public JSONObject get(@RequestBody String json) {
+    public JSONObject get(@RequestParam(name = "user_id", required = false) String userID,
+                          @RequestParam(name = "order_type", required = false) String orderType,
+                          @RequestParam(name = "keyword", required = false) String keyword) {
         JSONObject resObject = new JSONObject();
         try{
-            json = new String(json.getBytes(), Charset.forName("utf-8"));
-            JSONObject jsonObject = JSONObject.parseObject(json);
-            String userID = jsonObject.getString("userID");
-            String orderType = jsonObject.getString("orderType");
-            String keyword = jsonObject.getString("keyword");
-
             List<Canteen> list = canteenService.get(userID,orderType,keyword);
             resObject.put("resultCode",1);
             resObject.put("msg","Query Success");

@@ -20,7 +20,7 @@ public class UserController {
 
     //user login
     @ResponseBody
-    @RequestMapping(value = "/login",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "/login",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     public JSONObject login(@RequestBody String json) {
         JSONObject resObject = new JSONObject();
         try{
@@ -116,16 +116,13 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
-    public JSONObject getUser(@RequestBody String json) {
+    public JSONObject get(@RequestParam(name = "user_name", required = false) String userName,
+                          @RequestParam(name = "gender", required = false) String gender,
+                          @RequestParam(name = "name", required = false) String name,
+                          @RequestParam(name = "type", required = false) String type) {
         JSONObject resObject = new JSONObject();
         try{
-            json = new String(json.getBytes(), Charset.forName("utf-8"));
-            JSONObject jsonObject = JSONObject.parseObject(json);
-            String userName = jsonObject.getString("userName");
-            String password = jsonObject.getString("password");
-            String type = jsonObject.getString("type");
-
-            List<User> list = userService.getUser(userName, password,type);
+            List<User> list = userService.get(userName, name, gender, type);
             resObject.put("resultCode",1);
             resObject.put("msg","Query Success");
             resObject.put("content",JSON.toJSON(list));

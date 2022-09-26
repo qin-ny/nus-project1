@@ -53,7 +53,7 @@ public class OrderController {
             resObject.put("resultCode",1);
             resObject.put("id",order.getId());
             resObject.put("msg","Create Order Success");
-            resObject.put("content","Create Order Success");
+//            resObject.put("content","Create Order Success");
             System.out.println("Create Order Success");
 //            }
 //            else {
@@ -80,11 +80,6 @@ public class OrderController {
                                @RequestParam(name = "order_type", required = false) String orderType) {
         JSONObject resObject = new JSONObject();
         try{
-//            String canteenID = jsonObject.getString("canteenID");
-//            String userID = jsonObject.getString("userID");
-//            Integer status = jsonObject.getInteger("status");
-//            String orderType = jsonObject.getString("orderType")
-
             List<Order> list = orderService.get(canteenID,userID,status,orderType);
 
             for(Order order: list) {
@@ -137,7 +132,7 @@ public class OrderController {
             int result = orderService.updateStatus(orderID,status);
             resObject.put("resultCode",1);
             resObject.put("msg","Order Status Modified");
-            resObject.put("content","Order Status Modified");
+//            resObject.put("content","Order Status Modified");
             System.out.println("Order Status Modified");
         }
         catch (Exception e){

@@ -90,14 +90,15 @@ public class DishController {
 
             int retID = dishService.update(id,name,price,description,type);
             resObject.put("resultCode",1);
-            resObject.put("msg","Query Success");
+            resObject.put("msg","Updated Success");
+            resObject.put("id",retID);
 //            resObject.put("content",JSON.toJSON(list));
             return resObject;
         }
         catch (Exception e){
             resObject.put("resultCode",-2);
             resObject.put("msg","Internal Fail");
-            resObject.put("content",e.getMessage());
+//            resObject.put("content",e.getMessage());
             System.out.println("Internal Fail,"+e.getMessage());
         }
         return resObject;
