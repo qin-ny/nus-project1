@@ -7,8 +7,6 @@ import nus.iss.team1.project1.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.awt.desktop.SystemSleepEvent;
 import java.nio.charset.Charset;
 import java.util.List;
 
