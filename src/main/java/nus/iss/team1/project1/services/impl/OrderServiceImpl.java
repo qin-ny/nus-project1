@@ -1,5 +1,6 @@
 package nus.iss.team1.project1.services.impl;
 
+import nus.iss.team1.project1.dao.CanteenDao;
 import nus.iss.team1.project1.dao.OrderDao;
 import nus.iss.team1.project1.models.Order;
 import nus.iss.team1.project1.services.OrderService;
@@ -13,16 +14,18 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderDao orderDao;
 
+    @Autowired
+    private CanteenDao canteenDao;
+
     @Override
     public Order create(String orderTime, double totalFee, Integer status, Integer canteenID, Integer userID){
         Order order = new Order();
         order.setOrder_time(orderTime);
         order.setTotal_fee(totalFee);
         order.setStatus(status);
-        order.setCanteen_id(canteenID);
+        order.setCanteen(canteenDao.getByID(canteenID));
         order.setUser_id(userID);
         orderDao.create(order);
-//        orderDao.create(orderTime,totalFee,status,canteenID,userID);
         return order;
     }
 

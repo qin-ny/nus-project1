@@ -1,10 +1,9 @@
 package nus.iss.team1.project1.dao;
 
+import nus.iss.team1.project1.models.Canteen;
+import nus.iss.team1.project1.models.Dish;
 import nus.iss.team1.project1.models.OrderItem;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,6 +30,18 @@ public interface OrderItemDao {
             " and dish_id = #{dishID}" +
             " </when>" +
             " </script>")
+    @Results({
+            @Result(id = true,column = "id",property = "id"),
+            @Result(column = "number",property = "number"),
+            @Result(column = "fee",property = "fee"),
+            @Result(column = "order_id",property = "order_id"),
+            @Result(
+                    property = "dish",
+                    column = "dish_id",
+                    javaType = Dish.class,
+                    one = @One(select = "nus.iss.team1.project1.dao.DishDao.getDishByID")
+            )
+    })
     public List<OrderItem> get(@Param("orderID") Integer orderID, @Param("dishID") Integer dishID);
 
 }

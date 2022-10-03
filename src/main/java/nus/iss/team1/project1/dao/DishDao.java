@@ -14,12 +14,12 @@ public interface DishDao {
 
 
     @Insert(" <script>"  +
-            "insert into Dish (name,price,description,type,canteen_id)" +
-            " values (#{name},#{price},#{description},#{type},#{canteenID})" +
+            "insert into Dish (name,price,description,dish_type_id,canteen_id,stock)" +
+            " values (#{name},#{price},#{description},#{dish_type_id},#{canteenID},#{stock})" +
             " </script>")
     public void create(@Param("name") String name, @Param("price") double price,
-                       @Param("description") String description, @Param("type") String type,
-                       @Param("canteenID") String canteenID);
+                       @Param("description") String description, @Param("dish_type_id") Integer type_id,
+                       @Param("canteenID") String canteenID, @Param("stock") Integer stock);
 
     @Update(" <script>"  +
             " update Dish set id=#{id} " +
@@ -32,50 +32,63 @@ public interface DishDao {
             " <when test='description!=null'>" +
             " ,description = #{description}" +
             " </when>" +
-            " <when test='type!=null'>" +
-            " ,type = #{type}" +
+            " <when test='dish_type_id!=null'>" +
+            " ,dish_type_id = #{dish_type_id}" +
+            " </when>" +
+            " <when test='sales_num_thirty!=null'>" +
+            " ,sales_num_thirty = #{sales_num_thirty}" +
+            " </when>" +
+            " <when test='stock!=null'>" +
+            " ,stock = #{stock}" +
             " </when>" +
             " where id = #{id}" +
             " </script>" )
     public void update(@Param("id") Integer id, @Param("name")String name,
                        @Param("price") double price, @Param("description") String description,
-                       @Param("type") String type);
+                       @Param("dish_type_id") String type_id, @Param("sales_num_thirty") Integer sales_num_thirty,
+                       @Param("stock") String stock);
 
 
     @Select(" <script>"  +
-            " select id,name,price,stock,description,availability,type,sales_num_thirty,canteen_id from Dish where 1=1" +
+            " select * from Dish where 1=1" +
             " <when test='canteenID!=null'>" +
             " and canteen_id = #{canteenID}" +
             " </when>" +
-            " <when test='type!=null'>" +
-            " and type = #{type}" +
+            " <when test='type_id!=null'>" +
+            " and dish_type_id = #{type_id}" +
             " </when>" +
             " </script>" )
-    public List<Dish> getDish(@Param("canteenID") String canteenID,@Param("type") String type);
+    public List<Dish> getDish(@Param("canteenID") String canteenID,@Param("type_id") String type_id);
 
     @Select(" <script>"  +
-            " select id,name,price,stock,description,availability,type,sales_num_thirty,canteen_id from Dish where 1=1" +
+            " select * from Dish where " +
+            " id = #{id}" +
+            " </script>" )
+    public Dish getDishByID(@Param("id") Integer id);
+
+    @Select(" <script>"  +
+            " select * from Dish where 1=1" +
             " <when test='canteenID!=null'>" +
             " and canteen_id = #{canteenID}" +
             " </when>" +
-            " <when test='type!=null'>" +
-            " and type = #{type}" +
+            " <when test='type_id!=null'>" +
+            " and dish_type_id = #{type_id}" +
             " </when>" +
             " order by price ${order}" +
             " </script>" )
-    public List<Dish> getDishOrderByPrice(@Param("canteenID") String canteenID,@Param("type") String type,@Param("order") String order);
+    public List<Dish> getDishOrderByPrice(@Param("canteenID") String canteenID,@Param("type_id") String type_id,@Param("order") String order);
 
     @Select(" <script>"  +
-            " select id,name,price,stock,description,availability,type,sales_num_thirty,canteen_id from Dish where 1=1" +
+            " select * from Dish where 1=1" +
             " <when test='canteenID!=null'>" +
             " and canteen_id = #{canteenID}" +
             " </when>" +
-            " <when test='type!=null'>" +
-            " and type = #{type}" +
+            " <when test='type_id!=null'>" +
+            " and dish_type_id = #{type_id}" +
             " </when>" +
             " order by sales_num_thirty desc" +
             " </script>")
-    public List<Dish> getDishOrderBySales(@Param("canteenID") String canteenID,@Param("type") String type);
+    public List<Dish> getDishOrderBySales(@Param("canteenID") String canteenID,@Param("type_id") String type_id);
 
     @Delete(" <script>"  +
             " delete from Dish where id = #{id}" +

@@ -11,7 +11,7 @@ public class Dish {
     private Integer stock;
     private String description;
     private Integer availability;
-    private String type;
+    private String dish_type_id;
     private Integer sales_num_thirty;
     private Integer canteen_id;
 }

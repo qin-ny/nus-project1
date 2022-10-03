@@ -1,7 +1,11 @@
 package nus.iss.team1.project1.services.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import nus.iss.team1.project1.dao.CanteenDao;
+import nus.iss.team1.project1.dao.CanteenTypeDao;
 import nus.iss.team1.project1.models.Canteen;
+import nus.iss.team1.project1.models.CanteenType;
+import nus.iss.team1.project1.models.CanteenTypeCanteen;
 import nus.iss.team1.project1.services.CanteenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,15 +17,29 @@ public class CanteenServiceImpl implements CanteenService {
     @Autowired
     private CanteenDao canteenDao;
 
+    @Autowired
+    private CanteenTypeDao canteenTypeDao;
+
     @Override
-    public int create(String name,String description,String userID){
+    public int create(String name,String description,String userID, JSONArray canteenTypes){
         //check if user already exist, if do, return -1
         int cnt = canteenDao.checkCanteenExist(name) ;
         if(cnt > 0 ){
             return -1;
         }
-        canteenDao.create(name, description,userID);
-        return 1;
+        Canteen canteen = new Canteen();
+        canteen.setDescription(description);
+        canteen.setName(name);
+        canteen.setUser_id(Integer.parseInt(userID));
+        canteenDao.create(canteen);
+
+        for (Object canteenTypeID: canteenTypes.toArray()) {
+            CanteenTypeCanteen canteenTypeCanteen = new CanteenTypeCanteen();
+            canteenTypeCanteen.setCanteen_id(canteen.getId());
+            canteenTypeCanteen.setCanteen_type_id(Integer.parseInt(canteenTypeID.toString()));
+            canteenTypeDao.createCanteenCanteenType(canteenTypeCanteen);
+        }
+        return canteen.getId();
     }
 
     @Override
@@ -33,9 +51,32 @@ public class CanteenServiceImpl implements CanteenService {
     }
 
     @Override
-    public int update(Integer id, String name, String description) {
+    public int update(Integer id, String name, String description, JSONArray canteenTypes) {
+        List<CanteenType> delCanteenTypes = canteenTypeDao.getByCanteenID(id);
+        for (CanteenType delCanteenType: delCanteenTypes) {
+            canteenTypeDao.deleteCanteenTypeCanteen(id, delCanteenType.getId());
+        }
+
+        for (Object canteenTypeID: canteenTypes.toArray()) {
+//            if (canteenTypeDao.checkCanteenTypeExist(canteenType.toString()) > 0) {
+//                CanteenTypeCanteen canteenTypeCanteen = new CanteenTypeCanteen();
+//                canteenTypeCanteen.setCanteen_id(id);
+//                canteenTypeCanteen.setCanteen_type_id(canteenTypeDao.getByType(canteenType.toString()).getId());
+//                canteenTypeDao.createCanteenCanteenType(canteenTypeCanteen);
+//            }
+            CanteenTypeCanteen canteenTypeCanteen = new CanteenTypeCanteen();
+            canteenTypeCanteen.setCanteen_id(id);
+            canteenTypeCanteen.setCanteen_type_id(Integer.parseInt(canteenTypeID.toString()));
+            canteenTypeDao.createCanteenCanteenType(canteenTypeCanteen);
+
+        }
         canteenDao.update(id, name, description);
         return id;
+    }
+
+    @Override
+    public int delete(Integer id) {
+        return 0;
     }
 
 }

@@ -13,6 +13,6 @@ public class Order {
     private double total_fee;
     private Integer status;
     private Integer user_id;
-    private Integer canteen_id;
+    private Canteen canteen;
     private List<OrderItem> orderItems;
 }

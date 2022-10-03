@@ -8,5 +8,6 @@ public class OrderItem {
     private Integer number;
     private double fee;
     private Integer order_id;
+    private Dish dish;
     private Integer dish_id;
 }

@@ -3,8 +3,10 @@ package nus.iss.team1.project1.controllers;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import nus.iss.team1.project1.models.Dish;
 import nus.iss.team1.project1.models.Order;
 import nus.iss.team1.project1.models.OrderItem;
+import nus.iss.team1.project1.services.DishService;
 import nus.iss.team1.project1.services.OrderItemService;
 import nus.iss.team1.project1.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,10 @@ import java.util.List;
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/Foodies/order") // This means URL's start with /Foodies/user
 public class OrderController {
+
+    @Autowired
+    private DishService dishService;
+
     @Autowired
     private OrderService orderService;
 
@@ -46,6 +52,9 @@ public class OrderController {
             for (OrderItem orderItem: orderItems) {
                 OrderItem savedOrderItem = orderItemService.create(orderItem.getNumber(), orderItem.getFee(),
                         order.getId(), orderItem.getDish_id());
+                Dish dish = dishService.getDishByID(orderItem.getDish_id());
+                dishService.update(orderItem.getDish_id(), null, null, null,
+                        null, dish.getSales_num_thirty()+orderItem.getNumber(), null);
 //                savedOrderItems.add(savedOrderItem);
             }
 
@@ -55,13 +64,6 @@ public class OrderController {
             resObject.put("msg","Create Order Success");
 //            resObject.put("content","Create Order Success");
             System.out.println("Create Order Success");
-//            }
-//            else {
-//                resObject.put("resultCode",-1);
-//                resObject.put("msg","Create Order Fail");
-//                resObject.put("content","Create Order Error");
-//                System.out.println("Create Order Fail");
-//            }
         }
         catch (Exception e){
             resObject.put("resultCode",-2);
@@ -82,9 +84,9 @@ public class OrderController {
         try{
             List<Order> list = orderService.get(canteenID,userID,status,orderType);
 
-            for(Order order: list) {
-                order.setOrderItems(orderItemService.get(order.getId(), null));
-            }
+//            for(Order order: list) {
+//                order.setOrderItems(orderItemService.get(order.getId(), null));
+//            }
             resObject.put("resultCode",1);
             resObject.put("msg","Query Success");
             resObject.put("content",JSON.toJSON(list));
