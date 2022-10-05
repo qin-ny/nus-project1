@@ -14,8 +14,9 @@ public class OrderItemServiceImpl implements OrderItemService {
     private OrderItemDao orderItemDao;
 
     @Override
-    public OrderItem create(Integer number, double fee, Integer orderID, Integer dishID){
+    public OrderItem create(String name, Integer number, double fee, Integer orderID, Integer dishID){
         OrderItem orderItem = new OrderItem();
+        orderItem.setName(name);
         orderItem.setNumber(number);
         orderItem.setFee(fee);
         orderItem.setOrder_id(orderID);

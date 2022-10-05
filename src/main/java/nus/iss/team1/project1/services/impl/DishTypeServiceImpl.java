@@ -21,7 +21,7 @@ public class DishTypeServiceImpl implements DishTypeService {
     @Override
     public int create(String type, Integer canteenID) {
 
-        if (dishTypeDao.checkDishTypeExist(type) == 0) {
+        if (dishTypeDao.checkDishTypeExist(type, canteenID) == 0) {
             DishType dishType = new DishType();
             dishType.setType(type);
             dishType.setCanteen_id(canteenID);

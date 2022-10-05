@@ -47,9 +47,7 @@ public class CanteenController {
             }
         }
         catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Internal Fail,"+e.getMessage());
-            return ResponseResult.internalError();
+            return ResponseResult.internalError(e);
         }
     }
 
@@ -63,9 +61,7 @@ public class CanteenController {
             return ResponseResult.success(list);
         }
         catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Internal Fail,"+e.getMessage());
-            return ResponseResult.internalError();
+            return ResponseResult.internalError(e);
         }
     }
 
@@ -85,25 +81,21 @@ public class CanteenController {
             return ResponseResult.success();
         }
         catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Internal Fail,"+e.getMessage());
-            return ResponseResult.internalError();
+            return ResponseResult.internalError(e);
         }
     }
 
     @ResponseBody
     @RequestMapping(value = "/{id}",method = RequestMethod.DELETE,produces = "application/json; charset=utf-8")
     public ResponseResult delete(@PathVariable(value = "id") List<String> idList) {
-        try{
+        try {
             for (String id: idList) {
                 int ret = canteenService.delete(Integer.parseInt(id));
             }
             return ResponseResult.success();
         }
         catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Internal Fail,"+e.getMessage());
-            return ResponseResult.internalError();
+            return ResponseResult.internalError(e);
         }
     }
 
@@ -124,9 +116,7 @@ public class CanteenController {
             }
         }
         catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Internal Fail,"+e.getMessage());
-            return ResponseResult.internalError();
+            return ResponseResult.internalError(e);
         }
     }
 
@@ -138,9 +128,7 @@ public class CanteenController {
             return ResponseResult.success(list);
         }
         catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Internal Fail,"+e.getMessage());
-            return ResponseResult.internalError();
+            return ResponseResult.internalError(e);
         }
     }
 
@@ -158,9 +146,7 @@ public class CanteenController {
             return ResponseResult.success();
         }
         catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Internal Fail,"+e.getMessage());
-            return ResponseResult.internalError();
+            return ResponseResult.internalError(e);
         }
     }
 
@@ -173,9 +159,7 @@ public class CanteenController {
             }
             return ResponseResult.success();
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Internal Fail," + e.getMessage());
-            return ResponseResult.internalError();
+            return ResponseResult.internalError(e);
         }
     }
 }

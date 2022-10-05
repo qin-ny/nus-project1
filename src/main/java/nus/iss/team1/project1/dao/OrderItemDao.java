@@ -12,8 +12,8 @@ import java.util.List;
 public interface OrderItemDao {
 
     @Insert(" <script>"  +
-            "insert into OrderItem (number,fee,order_id,dish_id)" +
-            " values (#{number},#{fee},#{order_id},#{dish_id})" +
+            "insert into OrderItem (name,number,fee,order_id,dish_id)" +
+            " values (#{name},#{number},#{fee},#{order_id},#{dish_id})" +
             " </script>")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     public void create(OrderItem orderItem);
@@ -35,6 +35,7 @@ public interface OrderItemDao {
             @Result(column = "number",property = "number"),
             @Result(column = "fee",property = "fee"),
             @Result(column = "order_id",property = "order_id"),
+            @Result(column = "dish_id",property = "dish_id"),
             @Result(
                     property = "dish",
                     column = "dish_id",

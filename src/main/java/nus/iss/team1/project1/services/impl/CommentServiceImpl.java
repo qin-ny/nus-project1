@@ -20,15 +20,15 @@ public class CommentServiceImpl implements CommentService {
         if(num > 0){
             return -1;
        }
-//        Comment commentItem = new Comment();
-//        commentItem.setOrder_id(Integer.valueOf(orderID));
-//        commentItem.setCanteen_id(Integer.valueOf(canteenID));
-//        commentItem.setUser_id(Integer.valueOf(userID));
-//        commentItem.setStar(star);
-//        commentItem.setComment(comment);
+        Comment commentItem = new Comment();
+        commentItem.setOrder_id(Integer.valueOf(orderID));
+        commentItem.setCanteen_id(Integer.valueOf(canteenID));
+        commentItem.setUser_id(Integer.valueOf(userID));
+        commentItem.setStar(star);
+        commentItem.setComment(comment);
 
-        commentDao.create(orderID, userID, canteenID, star, comment);
-        return 1;
+        commentDao.create(commentItem);
+        return commentItem.getId();
     }
 
     @Override

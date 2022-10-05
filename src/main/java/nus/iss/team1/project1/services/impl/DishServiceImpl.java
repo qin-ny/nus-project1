@@ -19,16 +19,24 @@ public class DishServiceImpl implements DishService {
     private DishTypeDao dishTypeDao;
 
     @Override
-    public int create(String name, double price, String description, Integer typeID, String canteenID, String stock){
+    public int create(String name, double price, String description, Integer typeID, Integer canteenID, String stock){
         //check if user already exist, if do, return -1
         int cnt = dishDao.checkDishExist(name,canteenID) ;
         if(cnt > 0 ){
             return -1;
         }
 
+        Dish dish = new Dish();
+        dish.setName(name);
+        dish.setPrice(price);
+        dish.setDescription(description);
+        dish.setDish_type_id(typeID);
+        dish.setCanteen_id(canteenID);
+        dish.setStock(Integer.parseInt(stock));
+        dish.setName(name);
 
-        dishDao.create(name, price,description,typeID,canteenID,Integer.parseInt(stock));
-        return 1;
+        dishDao.create(dish);
+        return dish.getId();
     }
 
     @Override

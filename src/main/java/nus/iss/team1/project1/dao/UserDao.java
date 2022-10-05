@@ -1,10 +1,7 @@
 package nus.iss.team1.project1.dao;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
-import org.apache.ibatis.annotations.Param;
 import nus.iss.team1.project1.models.User;
 import java.util.List;
 
@@ -35,27 +32,27 @@ public interface UserDao {
             " <when test='gender!=null'>" +
             " gender," +
             " </when>" +
-            " <when test='phone!=null'>" +
+            " <when test='phone_number!=null'>" +
             " phone_number," +
             " </when>" +
             " <when test='email!=null'>" +
             " email," +
             " </when>" +
-            " NRIC_FIN,type) values (#{userName}, #{password},#{name}, " +
+            " NRIC_FIN,type)" +
+            " values (#{username}, #{password},#{name}, " +
             " <when test='gender!=null'>" +
             " #{gender}," +
             " </when>" +
-            " <when test='phone!=null'>" +
-            " #{phone}," +
+            " <when test='phone_number!=null'>" +
+            " #{phone_number}," +
             " </when>" +
             " <when test='email!=null'>" +
             " #{email}," +
             " </when>" +
-            " #{NRIC},#{type})" +
+            " #{NRIC_FIN},#{type})" +
             " </script>")
-    public void create(@Param("userName")String userName,@Param("password")String password,@Param("name")String name,
-                @Param("gender")String gender,@Param("phone")String phone,@Param("email")String email,@Param("NRIC")String NRIC,
-                @Param("type")String type);
+    @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
+    public void create(User user);
 
     @Select(" <script>"  +
             "select id,name,NRIC_FIN,phone_number,gender,email,username,password,type from User where 1=1" +

@@ -33,12 +33,17 @@ public class CanteenServiceImpl implements CanteenService {
         canteen.setUser_id(Integer.parseInt(userID));
         canteenDao.create(canteen);
 
-        for (Object canteenTypeID: canteenTypes.toArray()) {
-            CanteenTypeCanteen canteenTypeCanteen = new CanteenTypeCanteen();
-            canteenTypeCanteen.setCanteen_id(canteen.getId());
-            canteenTypeCanteen.setCanteen_type_id(Integer.parseInt(canteenTypeID.toString()));
-            canteenTypeDao.createCanteenCanteenType(canteenTypeCanteen);
+        try {
+            for (Object canteenTypeID: canteenTypes.toArray()) {
+                CanteenTypeCanteen canteenTypeCanteen = new CanteenTypeCanteen();
+                canteenTypeCanteen.setCanteen_id(canteen.getId());
+                canteenTypeCanteen.setCanteen_type_id(Integer.parseInt(canteenTypeID.toString()));
+                canteenTypeDao.createCanteenCanteenType(canteenTypeCanteen);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return canteen.getId();
     }
 
@@ -57,26 +62,26 @@ public class CanteenServiceImpl implements CanteenService {
             canteenTypeDao.deleteCanteenTypeCanteen(id, delCanteenType.getId());
         }
 
-        for (Object canteenTypeID: canteenTypes.toArray()) {
-//            if (canteenTypeDao.checkCanteenTypeExist(canteenType.toString()) > 0) {
-//                CanteenTypeCanteen canteenTypeCanteen = new CanteenTypeCanteen();
-//                canteenTypeCanteen.setCanteen_id(id);
-//                canteenTypeCanteen.setCanteen_type_id(canteenTypeDao.getByType(canteenType.toString()).getId());
-//                canteenTypeDao.createCanteenCanteenType(canteenTypeCanteen);
-//            }
-            CanteenTypeCanteen canteenTypeCanteen = new CanteenTypeCanteen();
-            canteenTypeCanteen.setCanteen_id(id);
-            canteenTypeCanteen.setCanteen_type_id(Integer.parseInt(canteenTypeID.toString()));
-            canteenTypeDao.createCanteenCanteenType(canteenTypeCanteen);
+        try {
+            for (Object canteenTypeID: canteenTypes.toArray()) {
+                CanteenTypeCanteen canteenTypeCanteen = new CanteenTypeCanteen();
+                canteenTypeCanteen.setCanteen_id(id);
+                canteenTypeCanteen.setCanteen_type_id(Integer.parseInt(canteenTypeID.toString()));
+                canteenTypeDao.createCanteenCanteenType(canteenTypeCanteen);
 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         canteenDao.update(id, name, description);
         return id;
     }
 
     @Override
     public int delete(Integer id) {
-        return 0;
+        canteenDao.delete(id);
+        return id;
     }
 
 }

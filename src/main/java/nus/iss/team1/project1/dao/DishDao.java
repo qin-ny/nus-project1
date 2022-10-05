@@ -10,16 +10,15 @@ import java.util.List;
 public interface DishDao {
 
     @Select("select count(*) from Dish where name = #{name} and canteen_id = #{canteenID}")
-    public Integer checkDishExist(@Param("name")String name,@Param("canteenID") String canteenID);
+    public Integer checkDishExist(@Param("name")String name,@Param("canteenID") Integer canteenID);
 
 
     @Insert(" <script>"  +
             "insert into Dish (name,price,description,dish_type_id,canteen_id,stock)" +
-            " values (#{name},#{price},#{description},#{dish_type_id},#{canteenID},#{stock})" +
+            " values (#{name},#{price},#{description},#{dish_type_id},#{canteen_id},#{stock})" +
             " </script>")
-    public void create(@Param("name") String name, @Param("price") double price,
-                       @Param("description") String description, @Param("dish_type_id") Integer type_id,
-                       @Param("canteenID") String canteenID, @Param("stock") Integer stock);
+    @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
+    public void create(Dish dish);
 
     @Update(" <script>"  +
             " update Dish set id=#{id} " +

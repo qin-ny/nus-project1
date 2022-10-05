@@ -17,7 +17,7 @@ public class ResponseResult<T> implements Serializable {
     @Getter
     public enum ResponseEnum {
         SUCCESS(200,"Success"),
-        ERROR(403,"Error"),
+        ERROR(403,"Requested resources not found"),
         INTERNAL_ERROR(501, "Internal Error");
 
         private int resultCode;
@@ -81,7 +81,9 @@ public class ResponseResult<T> implements Serializable {
         return responseResult;
     }
 
-    public static ResponseResult internalError() {
+    public static ResponseResult internalError(Exception e) {
+        e.printStackTrace();
+        System.out.println("Internal Fail,"+e.getMessage());
         return error(ResponseEnum.INTERNAL_ERROR.getResultCode(), ResponseEnum.INTERNAL_ERROR.getResultMsg(), null);
     }
 

@@ -9,6 +9,7 @@ import nus.iss.team1.project1.models.OrderItem;
 import nus.iss.team1.project1.services.DishService;
 import nus.iss.team1.project1.services.OrderItemService;
 import nus.iss.team1.project1.services.OrderService;
+import nus.iss.team1.project1.utils.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -32,10 +33,7 @@ public class OrderController {
 
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
-    public JSONObject create(@RequestBody String json) {
-        JSONObject resObject = new JSONObject();
-        Order order = new Order();
-//        List<OrderItem> savedOrderItems = new ArrayList<OrderItem>();
+    public ResponseResult create(@RequestBody String json) {
         try{
             json = new String(json.getBytes(), Charset.forName("utf-8"));
             JSONObject jsonObject = JSONObject.parseObject(json);
@@ -47,58 +45,35 @@ public class OrderController {
             String strOrderItems = jsonObject.getString("orderItems");
             List<OrderItem> orderItems = JSON.parseArray(strOrderItems, OrderItem.class);
 
-            order = orderService.create(orderTime,totalFee,status,canteenID,userID);
+            Order order = orderService.create(orderTime,totalFee,status,canteenID,userID);
 
             for (OrderItem orderItem: orderItems) {
-                OrderItem savedOrderItem = orderItemService.create(orderItem.getNumber(), orderItem.getFee(),
+                OrderItem savedOrderItem = orderItemService.create(orderItem.getName(), orderItem.getNumber(), orderItem.getFee(),
                         order.getId(), orderItem.getDish_id());
                 Dish dish = dishService.getDishByID(orderItem.getDish_id());
                 dishService.update(orderItem.getDish_id(), null, null, null,
                         null, dish.getSales_num_thirty()+orderItem.getNumber(), null);
-//                savedOrderItems.add(savedOrderItem);
             }
-
-//            if(result == 1) {
-            resObject.put("resultCode",1);
-            resObject.put("id",order.getId());
-            resObject.put("msg","Create Order Success");
-//            resObject.put("content","Create Order Success");
-            System.out.println("Create Order Success");
+            return ResponseResult.success(order.getId());
         }
         catch (Exception e){
-            resObject.put("resultCode",-2);
-            resObject.put("msg","Internal Fail");
-//            resObject.put("content",e.getMessage());
-            System.out.println("Internal Fail,"+e.getMessage());
+            return ResponseResult.internalError(e);
         }
-        return resObject;
     }
 
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
-    public JSONObject get(@RequestParam(name = "canteen_id", required = false) String canteenID,
+    public ResponseResult get(@RequestParam(name = "canteen_id", required = false) String canteenID,
                                @RequestParam(name = "user_id", required = false) String userID,
                                @RequestParam(name = "status", required = false) String status,
                                @RequestParam(name = "order_type", required = false) String orderType) {
-        JSONObject resObject = new JSONObject();
         try{
             List<Order> list = orderService.get(canteenID,userID,status,orderType);
-
-//            for(Order order: list) {
-//                order.setOrderItems(orderItemService.get(order.getId(), null));
-//            }
-            resObject.put("resultCode",1);
-            resObject.put("msg","Query Success");
-            resObject.put("content",JSON.toJSON(list));
-            return resObject;
+            return ResponseResult.success(list);
         }
         catch (Exception e){
-            resObject.put("resultCode",-2);
-            resObject.put("msg","Internal Fail");
-            resObject.put("content",e.getMessage());
-            System.out.println("Internal Fail,"+e.getMessage());
+            return ResponseResult.internalError(e);
         }
-        return resObject;
     }
 
 //    @ResponseBody
@@ -123,7 +98,7 @@ public class OrderController {
 
     @ResponseBody
     @RequestMapping(value = "/status",method = RequestMethod.PUT,produces = "application/json; charset=utf-8")
-    public JSONObject updateStatus(@RequestBody String json) {
+    public ResponseResult updateStatus(@RequestBody String json) {
         JSONObject resObject = new JSONObject();
         try{
             json = new String(json.getBytes(), Charset.forName("utf-8"));
@@ -132,17 +107,10 @@ public class OrderController {
             String status = jsonObject.getString("status");
 
             int result = orderService.updateStatus(orderID,status);
-            resObject.put("resultCode",1);
-            resObject.put("msg","Order Status Modified");
-//            resObject.put("content","Order Status Modified");
-            System.out.println("Order Status Modified");
+            return ResponseResult.success();
         }
         catch (Exception e){
-            resObject.put("resultCode",-2);
-            resObject.put("msg","Internal Fail");
-            resObject.put("content",e.getMessage());
-            System.out.println("Internal Fail,"+e.getMessage());
+            return ResponseResult.internalError(e);
         }
-        return resObject;
     }
 }

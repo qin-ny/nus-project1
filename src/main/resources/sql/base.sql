@@ -53,9 +53,9 @@ CREATE TABLE `Canteen_CanteenType` (
    `canteen_type_id` int(10) NOT NULL,
    PRIMARY KEY (canteen_id, canteen_type_id) USING BTREE,
    KEY `Canteen_CanteenType_askjh298_fk_canteen_id` (`canteen_id`) USING BTREE,
-   CONSTRAINT `Canteen_CanteenType_askjh298_fk_canteen_id` FOREIGN KEY (`canteen_id`) REFERENCES `Canteen` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+   CONSTRAINT `Canteen_CanteenType_askjh298_fk_canteen_id` FOREIGN KEY (`canteen_id`) REFERENCES `Canteen` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
    KEY `Canteen_CanteenType_kjas2asd_fk_canteen_type_id` (`canteen_type_id`) USING BTREE,
-   CONSTRAINT `Canteen_CanteenType_kjas2asd_fk_canteen_type_id` FOREIGN KEY (`canteen_type_id`) REFERENCES `CanteenType` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+   CONSTRAINT `Canteen_CanteenType_kjas2asd_fk_canteen_type_id` FOREIGN KEY (`canteen_type_id`) REFERENCES `CanteenType` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 CREATE TABLE IF NOT EXISTS `Comment`  (
@@ -92,7 +92,7 @@ CREATE TABLE `DishType` (
   `canteen_id` int(10) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `DishType_canteen_id_asdasjh123kas_fk_canteen_id` (`canteen_id`) USING BTREE,
-  CONSTRAINT `DishType_canteen_id_asdasjh123kas_fk_canteen_id` FOREIGN KEY (`canteen_id`) REFERENCES `canteen` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `DishType_canteen_id_asdasjh123kas_fk_canteen_id` FOREIGN KEY (`canteen_id`) REFERENCES `canteen` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 CREATE TABLE `Dish` (
@@ -108,21 +108,22 @@ CREATE TABLE `Dish` (
     PRIMARY KEY (`id`) USING BTREE,
     KEY `Dish_canteen_id_asdl232kasd_fk_canteen_id` (`canteen_id`) USING BTREE,
     KEY `Dish_dish_type_id_alsk213lhsd_fk_dish_type_id` (`dish_type_id`) USING BTREE,
-    CONSTRAINT `Dish_canteen_id_asdl232kasd_fk_canteen_id` FOREIGN KEY (`canteen_id`) REFERENCES `canteen` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT `Dish_dish_type_id_alsk213lhsd_fk_dish_type_id` FOREIGN KEY (`dish_type_id`) REFERENCES `DishType` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT `Dish_canteen_id_asdl232kasd_fk_canteen_id` FOREIGN KEY (`canteen_id`) REFERENCES `canteen` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `Dish_dish_type_id_alsk213lhsd_fk_dish_type_id` FOREIGN KEY (`dish_type_id`) REFERENCES `DishType` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 CREATE TABLE IF NOT EXISTS `OrderItem`  (
   `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `number` int(10) NOT NULL,
   `fee` double(20, 3) NOT NULL,
   `order_id` int(10) NOT NULL,
-  `dish_id` int(10) NOT NULL,
+  `dish_id` int(10),
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `OrderItem_order_id_as2jasdk_fk_order_id`(`order_id`) USING BTREE,
   INDEX `OrderItem_dish_id_as2jasdk_fk_dish_id`(`dish_id`) USING BTREE,
-  CONSTRAINT `OrderItem_order_id_as2jasdk_fk_order_id` FOREIGN KEY (`order_id`) REFERENCES `Order` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `OrderItem_dish_id_as2jasdk_fk_dish_id` FOREIGN KEY (`dish_id`) REFERENCES `Dish` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `OrderItem_order_id_as2jasdk_fk_order_id` FOREIGN KEY (`order_id`) REFERENCES `Order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `OrderItem_dish_id_as2jasdk_fk_dish_id` FOREIGN KEY (`dish_id`) REFERENCES `Dish` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 CREATE TABLE IF NOT EXISTS `Member`  (
@@ -133,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `Member`  (
   `customer_id` int(10) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `Member_customer_id_asdkh4kjas_fk_customer_id`(`customer_id`) USING BTREE,
-  CONSTRAINT `Member_customer_id_asdkh4kjas_fk_customer_id` FOREIGN KEY (`customer_id`) REFERENCES `Customer` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `Member_customer_id_asdkh4kjas_fk_customer_id` FOREIGN KEY (`customer_id`) REFERENCES `Customer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 

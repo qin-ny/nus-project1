@@ -12,8 +12,8 @@ import java.util.List;
 public interface DishTypeDao {
 
 
-    @Select("select count(*) from CanteenType where type = #{type}")
-    public Integer checkDishTypeExist(@Param("type")String type);
+    @Select("select count(*) from DishType where type = #{type} and canteen_id = #{canteenID}")
+    public Integer checkDishTypeExist(@Param("type")String type, @Param("canteenID") Integer canteenID);
 
     @Insert(" <script>"  +
             "insert into DishType (type,canteen_id)" +

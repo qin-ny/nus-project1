@@ -38,8 +38,17 @@ public class UserServiceImpl implements UserService {
         if(emailcnt > 0){
             return -4;
         }
-        userDAO.create(userName, password,name,gender,phone,email,NRIC,type);
-        return 1;
+        User user = new User();
+        user.setUsername(userName);
+        user.setPassword(password);
+        user.setName(name);
+        user.setGender(gender);
+        user.setPhone_number(phone);
+        user.setEmail(email);
+        user.setNRIC_FIN(NRIC);
+        user.setType(type);
+        userDAO.create(user);
+        return user.getId();
     }
 
     @Override
