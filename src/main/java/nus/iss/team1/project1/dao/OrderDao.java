@@ -61,6 +61,13 @@ public interface OrderDao {
             " </script>" )
     public void updateStatus(@Param("orderID") String orderID, @Param("status")String status);
 
+    @Select
+    ( " <script>"  +
+            " select count(*) cnt from project1.Order where canteen_id = #{canteen_id}" +
+            " and DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(create_time)" +
+            " </script>" )
+    public Integer getOrderNumByCanteenID(@Param("canteen_id") String canteen_id);
+
 //    @Delete(" <script>"  +
 //            " delete from project1.Order where id in #{orderID}" +
 //            " </script>" )

@@ -13,4 +13,5 @@ public class Canteen {
     private String description;
     private Integer user_id;
     private List<CanteenType> canteenTypes;
+    private Integer orderNums;
 }

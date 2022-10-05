@@ -49,6 +49,12 @@ public interface CanteenDao {
                     column = "id",
                     javaType = List.class,
                     many = @Many(select = "nus.iss.team1.project1.dao.CanteenTypeDao.getByCanteenID")
+            ),
+            @Result(
+                    property = "orderNums",
+                    column = "id",
+                    javaType = Integer.class,
+                    many = @Many(select = "nus.iss.team1.project1.dao.OrderDao.getOrderNumByCanteenID")
             )
     })
     public List<Canteen> get(@Param("userID") String userID,@Param("orderType") String orderType,@Param("keyword") String keyword);
