@@ -22,7 +22,7 @@ public class JwtUtil {
     RedisTemplate<Object, Object> redisTemplate;
 
     public static String key = "culverin";
-    public static int exp_hours = 1;
+    public static int exp_hours = 2;
 
 //    private JwtUtil(RedisTemplate<Object, Object> redisTemplate) {
 //        this.redisTemplate = redisTemplate;
@@ -30,7 +30,7 @@ public class JwtUtil {
 
     public String getToken(User user) {
         long now = System.currentTimeMillis();
-        long exp = now+ 1000L *60*exp_hours;
+        long exp = now+ 1000L *60*60*exp_hours;
 
         JwtBuilder jwtBuilder =  Jwts.builder()
                 .setId(user.getId()+"")
