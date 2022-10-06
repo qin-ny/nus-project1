@@ -19,12 +19,16 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     public static final String USER_KEY = "USER_ID";
     public static final String USER_INFO = "USER_INFO";
+    public static final boolean DEBUG_MODEL = true;
 
     @Autowired
     JwtUtil jwtUtil;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (DEBUG_MODEL) {
+            return true;
+        }
         Token annotation;
         if(handler instanceof HandlerMethod) {
             annotation = ((HandlerMethod) handler).getMethodAnnotation(Token.class);
