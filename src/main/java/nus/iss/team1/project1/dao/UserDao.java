@@ -28,7 +28,10 @@ public interface UserDao {
 
 
     @Insert(" <script>"  +
-            "insert into User (username,password,name," +
+            "insert into User (username,password," +
+            " <when test='name!=null'>" +
+            " name," +
+            " </when>" +
             " <when test='gender!=null'>" +
             " gender," +
             " </when>" +
@@ -38,8 +41,14 @@ public interface UserDao {
             " <when test='email!=null'>" +
             " email," +
             " </when>" +
-            " NRIC_FIN,type)" +
-            " values (#{username}, #{password},#{name}, " +
+            " <when test='NRIC_FIN!=null'>" +
+            " NRIC_FIN," +
+            " </when>" +
+            " type)" +
+            " values (#{username}, #{password}," +
+            " <when test='name!=null'>" +
+            " #{name}, " +
+            " </when>" +
             " <when test='gender!=null'>" +
             " #{gender}," +
             " </when>" +
@@ -49,7 +58,10 @@ public interface UserDao {
             " <when test='email!=null'>" +
             " #{email}," +
             " </when>" +
-            " #{NRIC_FIN},#{type})" +
+            " <when test='NRIC_FIN!=null'>" +
+            " #{NRIC_FIN}," +
+            " </when>" +
+            "#{type})" +
             " </script>")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     public void create(User user);
