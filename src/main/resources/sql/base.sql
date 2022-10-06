@@ -58,17 +58,20 @@ CREATE TABLE `Canteen_CanteenType` (
    CONSTRAINT `Canteen_CanteenType_kjas2asd_fk_canteen_type_id` FOREIGN KEY (`canteen_type_id`) REFERENCES `CanteenType` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
-CREATE TABLE IF NOT EXISTS `Comment`  (
+CREATE TABLE IF NOT EXISTS 'Comment' (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `comment` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `star` float(2) NOT NULL,
   `user_id` int(10) NOT NULL,
   `canteen_id` int(10) NOT NULL,
+  `order_id` int(10) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `comment_user_id_1sgwerw_fk_user_id`(`user_id`) USING BTREE,
-  INDEX `comment_canteen_id_1ehsf3dfg_fk_canteen_id`(`canteen_id`) USING BTREE,
-  CONSTRAINT `comment_user_id_1sgwerw_fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `comment_canteen_id_1ehsf3dfg_fk_canteen_id` FOREIGN KEY (`canteen_id`) REFERENCES `Canteen` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `comment_user_id_1sgwerw_fk_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `comment_canteen_id_1ehsf3dfg_fk_canteen_id`(`canteen_id` ASC) USING BTREE,
+  INDEX `comment_order_id_1ashdjknxs_fk_order_id`(`order_id` ASC) USING BTREE,
+  CONSTRAINT `comment_canteen_id_1ehsf3dfg_fk_canteen_id` FOREIGN KEY (`canteen_id`) REFERENCES `canteen` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `comment_user_id_1sgwerw_fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `comment_order_id_1ashdjknxs_fk_order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 CREATE TABLE IF NOT EXISTS `Order`  (

@@ -24,9 +24,12 @@ public interface CommentDao {
             " SELECT count(*) from Project1.Comment where user_id = #{userID} and order_id = #{orderID}" +
             " </script>")
     public Integer checkCommentNum(@Param("userID") String userID,@Param("orderID") String orderID);
-
+    @Select(" <script>" +
+            " SELECT canteen_id FROM Project1.Comment WHERE id = #{commentID}" +
+            " </script>")
+    public Integer getCanteenIDByID(@Param("commentID") Integer commentID);
     @Delete(" <script>" +
             " DELETE from Project1.Comment where id in #{comment_id}" +
             " </script>")
-    public int delete(@Param("commentID") int commentID);
+    public int delete(@Param("commentID") Integer commentID);
 }
