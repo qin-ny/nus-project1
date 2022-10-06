@@ -3,6 +3,7 @@ package nus.iss.team1.project1.controllers;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import nus.iss.team1.project1.annotation.token.Token;
 import nus.iss.team1.project1.models.Canteen;
 import nus.iss.team1.project1.models.CanteenType;
 import nus.iss.team1.project1.models.OrderItem;
@@ -10,6 +11,8 @@ import nus.iss.team1.project1.services.CanteenService;
 import nus.iss.team1.project1.services.CanteenTypeService;
 import nus.iss.team1.project1.utils.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +29,7 @@ public class CanteenController {
     private CanteenTypeService canteenTypeService;
 
     //canteen create
+    @Token
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     public ResponseResult create(@RequestBody String json) {
@@ -51,6 +55,7 @@ public class CanteenController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
     public ResponseResult get(@RequestParam(name = "user_id", required = false) String userID,
@@ -65,6 +70,7 @@ public class CanteenController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "/{id}",method = RequestMethod.PUT,produces = "application/json; charset=utf-8")
     public ResponseResult update(@PathVariable(value = "id") List<String> idList, @RequestBody String json) {
@@ -85,6 +91,7 @@ public class CanteenController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "/{id}",method = RequestMethod.DELETE,produces = "application/json; charset=utf-8")
     public ResponseResult delete(@PathVariable(value = "id") List<String> idList) {
@@ -99,6 +106,7 @@ public class CanteenController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "/type",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     public ResponseResult createType(@RequestBody String json) {
@@ -120,6 +128,7 @@ public class CanteenController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "/type",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
     public ResponseResult getType() {
@@ -132,6 +141,7 @@ public class CanteenController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "/type/{id}",method = RequestMethod.PUT,produces = "application/json; charset=utf-8")
     public ResponseResult updateType(@PathVariable(value = "id") List<String> idList, @RequestBody String json) {
@@ -150,6 +160,7 @@ public class CanteenController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "/type/{id}",method = RequestMethod.DELETE,produces = "application/json; charset=utf-8")
     public ResponseResult deleteType(@PathVariable(value = "id") List<String> idList) {

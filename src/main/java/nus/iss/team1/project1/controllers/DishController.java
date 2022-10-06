@@ -2,6 +2,7 @@ package nus.iss.team1.project1.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import nus.iss.team1.project1.annotation.token.Token;
 import nus.iss.team1.project1.models.Dish;
 import nus.iss.team1.project1.models.DishType;
 import nus.iss.team1.project1.services.DishService;
@@ -23,7 +24,8 @@ public class DishController {
 
     @Autowired
     private DishTypeService dishTypeService;
-    //canteen create
+
+    @Token
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     public ResponseResult create(@RequestBody String json) {
@@ -50,7 +52,7 @@ public class DishController {
         }
     }
 
-
+    @Token
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
     public ResponseResult get(@RequestParam(name = "canteen_id", required = false) String canteenID,
@@ -65,6 +67,7 @@ public class DishController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "/type_group",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
     public ResponseResult getByType(@RequestParam(name = "canteen_id") String canteenID) {
@@ -83,6 +86,7 @@ public class DishController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "/{id}",method = RequestMethod.PUT,produces = "application/json; charset=utf-8")
     public ResponseResult update(@RequestBody String json, @PathVariable("id") Integer id) {
@@ -103,6 +107,7 @@ public class DishController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = {
             "{id}"
@@ -119,6 +124,7 @@ public class DishController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "/type",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
     public ResponseResult getType(@RequestParam(name = "canteen_id", required = false) String canteenID,
@@ -132,6 +138,7 @@ public class DishController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "/type",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     public ResponseResult createType(@RequestBody String json) {
@@ -154,6 +161,7 @@ public class DishController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = {
             "/type/{id}"

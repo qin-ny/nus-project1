@@ -8,8 +8,11 @@ import nus.iss.team1.project1.models.CanteenType;
 import nus.iss.team1.project1.models.CanteenTypeCanteen;
 import nus.iss.team1.project1.services.CanteenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service

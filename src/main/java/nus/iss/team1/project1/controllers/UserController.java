@@ -2,14 +2,19 @@ package nus.iss.team1.project1.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import nus.iss.team1.project1.annotation.token.Token;
 import nus.iss.team1.project1.models.User;
 import nus.iss.team1.project1.services.UserService;
 import nus.iss.team1.project1.utils.JwtUtil;
 import nus.iss.team1.project1.utils.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -19,7 +24,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    //user login
+//    @Autowired
+//    StringRedisTemplate stringRedisTemplate;
+//    @Resource(name="stringRedisTemplate")
+//    ValueOperations<String, String> valOpsStr;
+//    @Autowired
+//    RedisTemplate<Object, Object> redisTemplate;
+    @Autowired
+    JwtUtil jwtUtil;
+
     @ResponseBody
     @RequestMapping(value = "/login",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     public ResponseResult login(@RequestBody String json) {
@@ -32,7 +45,8 @@ public class UserController {
 
             User user = userService.validate(userName, password,type);
             if(null != user) {
-                String token = JwtUtil.getoken(user);
+                String token = jwtUtil.getToken(user);
+
                 JSONObject resObject = new JSONObject();
                 resObject.put("content",user);
                 resObject.put("token",token);
@@ -47,7 +61,6 @@ public class UserController {
         }
     }
 
-    //user create
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     public ResponseResult create(@RequestBody String json) {
@@ -83,7 +96,7 @@ public class UserController {
         }
     }
 
-
+    @Token
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
     public ResponseResult get(@RequestParam(name = "user_name", required = false) String userName,
@@ -100,6 +113,7 @@ public class UserController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.PUT,produces = "application/json; charset=utf-8")
     public ResponseResult modifyUser(@RequestBody String json) {
@@ -131,6 +145,7 @@ public class UserController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "/modifyPassword",method = RequestMethod.PUT,produces = "application/json; charset=utf-8")
     public ResponseResult modifyPassword(@RequestBody String json) {

@@ -110,4 +110,12 @@ public class ResponseResult<T> implements Serializable {
                 ", data=" + data +
                 '}';
     }
+
+    public String toJsonString() {
+        return "{" +
+                "\"code\":" + code +
+                ", \"msg\":\"" + msg + "\"" +
+                ", \"data\":" + data +
+                "}";
+    }
 }

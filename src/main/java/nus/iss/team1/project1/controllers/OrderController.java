@@ -3,6 +3,7 @@ package nus.iss.team1.project1.controllers;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import nus.iss.team1.project1.annotation.token.Token;
 import nus.iss.team1.project1.models.Dish;
 import nus.iss.team1.project1.models.Order;
 import nus.iss.team1.project1.models.OrderItem;
@@ -31,6 +32,7 @@ public class OrderController {
     @Autowired
     private OrderItemService orderItemService;
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     public ResponseResult create(@RequestBody String json) {
@@ -61,6 +63,7 @@ public class OrderController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
     public ResponseResult get(@RequestParam(name = "canteen_id", required = false) String canteenID,
@@ -96,6 +99,7 @@ public class OrderController {
 //        return resObject;
 //    }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "/status",method = RequestMethod.PUT,produces = "application/json; charset=utf-8")
     public ResponseResult updateStatus(@RequestBody String json) {

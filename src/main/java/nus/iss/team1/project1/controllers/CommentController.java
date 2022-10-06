@@ -2,6 +2,7 @@ package nus.iss.team1.project1.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import nus.iss.team1.project1.annotation.token.Token;
 import nus.iss.team1.project1.models.Comment;
 import nus.iss.team1.project1.services.CommentService;
 import nus.iss.team1.project1.utils.ResponseResult;
@@ -17,6 +18,7 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    @Token
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     public ResponseResult create(@RequestBody String json){
@@ -42,6 +44,8 @@ public class CommentController {
             return ResponseResult.internalError(e);
         }
     }
+
+    @Token
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
     public ResponseResult get(@RequestParam(name = "canteen_id", required = false) String canteenID)  {
@@ -55,6 +59,7 @@ public class CommentController {
         }
     }
 
+    @Token
     @ResponseBody
     @RequestMapping(value = {"{id}"},method = RequestMethod.DELETE,produces = "application/json; charset=utf-8")
     public ResponseResult delete(@PathVariable(value = "id", required = false) int id){
