@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import nus.iss.team1.project1.annotation.token.Token;
 import nus.iss.team1.project1.models.User;
+import nus.iss.team1.project1.models.Customer;
+import nus.iss.team1.project1.services.CustomerService;
 import nus.iss.team1.project1.services.UserService;
 import nus.iss.team1.project1.utils.JwtUtil;
 import nus.iss.team1.project1.utils.ResponseResult;
@@ -23,6 +25,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private CustomerService customerService;
 
 //    @Autowired
 //    StringRedisTemplate stringRedisTemplate;
@@ -50,6 +54,10 @@ public class UserController {
                 JSONObject resObject = new JSONObject();
                 resObject.put("content",user);
                 resObject.put("token",token);
+                if(type.equals("1")){
+                    Customer customer = customerService.getCustomer(user.getId());
+                    resObject.put("customerInfo",customer);
+                }
                 return ResponseResult.success(resObject);
             }
             else {
@@ -88,6 +96,9 @@ public class UserController {
                 case -4:
                     return ResponseResult.error("Email Already Exist", null);
                 default:
+                    if(type.equals("1")){
+                        int cusResult = customerService.create(result);
+                    }
                     return ResponseResult.success(result);
             }
         }

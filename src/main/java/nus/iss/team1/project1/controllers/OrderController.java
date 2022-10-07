@@ -7,6 +7,7 @@ import nus.iss.team1.project1.annotation.token.Token;
 import nus.iss.team1.project1.models.Dish;
 import nus.iss.team1.project1.models.Order;
 import nus.iss.team1.project1.models.OrderItem;
+import nus.iss.team1.project1.services.CustomerService;
 import nus.iss.team1.project1.services.DishService;
 import nus.iss.team1.project1.services.OrderItemService;
 import nus.iss.team1.project1.services.OrderService;
@@ -32,6 +33,8 @@ public class OrderController {
     @Autowired
     private OrderItemService orderItemService;
 
+    @Autowired
+    private CustomerService customerService;
     @Token
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
@@ -56,6 +59,7 @@ public class OrderController {
                 dishService.update(orderItem.getDish_id(), null, null, null,
                         null, dish.getSales_num_thirty()+orderItem.getNumber(), null);
             }
+            int resultID = customerService.update(order.getUser_id(),(int)order.getTotal_fee()*100);
             return ResponseResult.success(order.getId());
         }
         catch (Exception e){
