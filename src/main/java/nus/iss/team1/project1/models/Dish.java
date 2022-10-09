@@ -14,4 +14,5 @@ public class Dish {
     private Integer dish_type_id;
     private Integer sales_num_thirty;
     private Integer canteen_id;
+    private static Integer selected = 0;
 }

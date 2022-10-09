@@ -22,7 +22,7 @@ public class JwtUtil {
     RedisTemplate<Object, Object> redisTemplate;
 
     public static String key = "culverin";
-    public static int exp_hours = 2;
+    public static int exp_hours = 24;
 
 //    private JwtUtil(RedisTemplate<Object, Object> redisTemplate) {
 //        this.redisTemplate = redisTemplate;
@@ -41,7 +41,7 @@ public class JwtUtil {
 
         ValueOperations ops = redisTemplate.opsForValue();
         ops.set(user.getId()+"", user);
-        redisTemplate.expire(user.getId()+"", 60L *60*exp_hours,  TimeUnit.SECONDS);
+        redisTemplate.expire(user.getId()+"", exp_hours,  TimeUnit.HOURS);
 
         return  jwtBuilder.compact();
     }

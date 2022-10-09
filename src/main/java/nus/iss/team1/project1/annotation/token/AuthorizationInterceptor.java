@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     public static final String USER_KEY = "USER_ID";
     public static final String USER_INFO = "USER_INFO";
-    public static final boolean DEBUG_MODEL = true;
+    public static final boolean DEBUG_MODEL = false;
 
     @Autowired
     JwtUtil jwtUtil;
