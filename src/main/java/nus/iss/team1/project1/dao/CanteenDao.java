@@ -72,7 +72,7 @@ public interface CanteenDao {
     public void update(@Param("id") Integer id, @Param("name")String name, @Param("description") String description);
     @Update(" <script>" +
             " update Canteen set star =" +
-            " (select avg(star) from comment where canteen_id = #{canteenID})" +
+            " (select avg(star) from Comment where canteen_id = #{canteenID})" +
             " where id = #{canteenID}" +
             " </script>")
     public void updateStar(@Param("canteenID") String canteenID);
