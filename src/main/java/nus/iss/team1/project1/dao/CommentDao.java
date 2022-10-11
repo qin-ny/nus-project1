@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface CommentDao {
     @Insert(" <script>" +
-            " INSERT INTO Project1.Comment (order_id,user_id,canteen_id,star,comment)" +
+            " INSERT INTO project1.Comment (order_id,user_id,canteen_id,star,comment)" +
             " VALUES (#{order_id},#{user_id},#{canteen_id},#{star},#{comment})" +
             " </script>")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
@@ -24,21 +24,24 @@ public interface CommentDao {
             " <when test='userID!=null'>" +
             " and a.user_id = #{userID}" +
             " </when>" +
+            " <when test='orderID!=null'>" +
+            " and a.order_id = #{orderID}" +
+            " </when>" +
             " </script>")
-    public List<Comment> getComment(@Param("canteenID") String canteenID,@Param("userID") String userID);
+    public List<Comment> getComment(@Param("canteenID") String canteenID,@Param("userID") String userID,@Param("orderID") String orderID);
 
     @Select(" <script>" +
-            " SELECT count(*) from Project1.Comment where user_id = #{userID} and order_id = #{orderID}" +
+            " SELECT count(*) from project1.Comment where user_id = #{userID} and order_id = #{orderID}" +
             " </script>")
     public Integer checkCommentNum(@Param("userID") String userID,@Param("orderID") String orderID);
 
     @Select(" <script>" +
-            " SELECT canteen_id FROM Project1.Comment WHERE id = #{commentID}" +
+            " SELECT canteen_id FROM project1.Comment WHERE id = #{commentID}" +
             " </script>")
     public Integer getCanteenIDByID(@Param("commentID") Integer commentID);
 
     @Delete(" <script>" +
-            " DELETE from Project1.Comment where id in #{comment_id}" +
+            " DELETE from project1.Comment where id = #{commentID}" +
             " </script>")
-    public int delete(@Param("commentID") Integer commentID);
+    public void delete(@Param("commentID") Integer commentID);
 }
