@@ -6,10 +6,13 @@ import com.alibaba.fastjson.JSONObject;
 import nus.iss.team1.project1.annotation.token.Token;
 import nus.iss.team1.project1.models.Canteen;
 import nus.iss.team1.project1.models.CanteenType;
+import nus.iss.team1.project1.models.Dish;
 import nus.iss.team1.project1.models.OrderItem;
 import nus.iss.team1.project1.services.CanteenService;
 import nus.iss.team1.project1.services.CanteenTypeService;
+import nus.iss.team1.project1.services.DishService;
 import nus.iss.team1.project1.utils.ResponseResult;
+import nus.iss.team1.project1.utils.file.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -27,6 +30,9 @@ public class CanteenController {
 
     @Autowired
     private CanteenTypeService canteenTypeService;
+
+    @Autowired
+    private DishService dishService;
 
     //canteen create
     @Token
@@ -97,6 +103,11 @@ public class CanteenController {
     public ResponseResult delete(@PathVariable(value = "id") List<String> idList) {
         try {
             for (String id: idList) {
+                List<Dish> dishList = dishService.get(id, null, null);
+                for(Dish dish: dishList) {
+                    ImageUtils imageUtils = new ImageUtils(String.valueOf(dish.getCanteen_id()), String.valueOf(dish.getId()));
+                    imageUtils.delete();
+                }
                 int ret = canteenService.delete(Integer.parseInt(id));
             }
             return ResponseResult.success();

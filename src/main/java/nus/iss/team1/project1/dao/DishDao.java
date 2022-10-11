@@ -14,8 +14,24 @@ public interface DishDao {
 
 
     @Insert(" <script>"  +
-            "insert into Dish (name,price,description,dish_type_id,canteen_id,stock)" +
-            " values (#{name},#{price},#{description},#{dish_type_id},#{canteen_id},#{stock})" +
+            "insert into Dish (name,price" +
+            " <when test='description!=null'>" +
+            ",description" +
+            " </when>" +
+            ",dish_type_id,canteen_id" +
+            " <when test='stock!=null'>" +
+            ",stock" +
+            " </when>" +
+            ")" +
+            " values (#{name},#{price}" +
+            " <when test='description!=null'>" +
+            ",#{description}" +
+            " </when>" +
+            ",#{dish_type_id},#{canteen_id}" +
+            " <when test='stock!=null'>" +
+            ",#{stock}" +
+            " </when>" +
+            ")" +
             " </script>")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     public void create(Dish dish);

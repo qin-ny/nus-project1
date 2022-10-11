@@ -8,9 +8,18 @@ import nus.iss.team1.project1.models.DishType;
 import nus.iss.team1.project1.services.DishService;
 import nus.iss.team1.project1.services.DishTypeService;
 import nus.iss.team1.project1.utils.ResponseResult;
+import nus.iss.team1.project1.utils.file.FileNameUtils;
+import nus.iss.team1.project1.utils.file.FileUtils;
+import nus.iss.team1.project1.utils.file.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -37,7 +46,7 @@ public class DishController {
             String description = jsonObject.getString("description");
             Integer typeID = jsonObject.getInteger("type_id");
             Integer canteenID = jsonObject.getInteger("canteenID");
-            String stock = jsonObject.getString("stock");
+            Integer stock = jsonObject.getInteger("stock");
 
             int result = dishService.create(name,price,description,typeID,canteenID,stock);
             if(result > 0) {
@@ -49,6 +58,41 @@ public class DishController {
         }
         catch (Exception e){
             return ResponseResult.internalError(e);
+        }
+    }
+
+    @Token
+    @ResponseBody
+    @RequestMapping(value = "/image",method = RequestMethod.POST)
+    public ResponseResult uploadImage(@RequestParam("image") MultipartFile file,
+                                      @RequestParam("canteen_id") String canteenID,
+                                      @RequestParam("dish_id") String dishID) {
+        try{
+            ImageUtils imageUtils = new ImageUtils(canteenID, dishID);
+            if(!imageUtils.validateFormat(file)) {
+                return ResponseResult.error("invalid image format", null);
+            }
+            imageUtils.upload(file);
+            return ResponseResult.success();
+        }
+        catch (Exception e){
+            return ResponseResult.internalError(e);
+        }
+    }
+
+    @Token
+    @ResponseBody
+    @RequestMapping(value = "/image",method = RequestMethod.GET)
+    public ResponseEntity<Resource> getImage(@RequestParam("canteen_id") String canteenID,
+                                             @RequestParam("dish_id") String dishID) {
+        try{
+            ImageUtils imageUtils = new ImageUtils(canteenID, dishID);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(imageUtils.getImage());
+        }
+        catch (Exception e){
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -115,7 +159,10 @@ public class DishController {
     public ResponseResult delete(@PathVariable(value = "id", required = false) List<String> idList) {
         try{
             for (String id: idList) {
+                Dish dish = dishService.getDishByID(Integer.parseInt(id));
+                ImageUtils imageUtils = new ImageUtils(String.valueOf(dish.getCanteen_id()), String.valueOf(dish.getId()));
                 dishService.delete(Integer.parseInt(id));
+                imageUtils.delete();
             }
             return ResponseResult.success();
         }
@@ -169,6 +216,11 @@ public class DishController {
     public ResponseResult deleteType(@PathVariable(value = "id") List<String> idList) {
         try{
             for (String id: idList) {
+                List<Dish> dishList = dishService.get(null, id, null);
+                for (Dish dish: dishList) {
+                    ImageUtils imageUtils = new ImageUtils(String.valueOf(dish.getCanteen_id()), String.valueOf(dish.getId()));
+                    imageUtils.delete();
+                }
                 dishTypeService.delete(Integer.parseInt(id));
             }
             return ResponseResult.success();
