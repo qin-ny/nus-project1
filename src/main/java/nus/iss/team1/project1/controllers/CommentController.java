@@ -48,10 +48,10 @@ public class CommentController {
     @Token
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
-    public ResponseResult get(@RequestParam(name = "canteen_id", required = false) String canteenID)  {
-        JSONObject resObject = new JSONObject();
+    public ResponseResult get(@RequestParam(name = "canteen_id", required = false) String canteenID,
+                              @RequestParam(name = "user_id", required = false) String userID) {
         try{
-            List<Comment> list = commentService.get(canteenID);
+            List<Comment> list = commentService.get(canteenID, userID);
             return ResponseResult.success(list);
         }
         catch(Exception e){
@@ -62,7 +62,7 @@ public class CommentController {
     @Token
     @ResponseBody
     @RequestMapping(value = {"{id}"},method = RequestMethod.DELETE,produces = "application/json; charset=utf-8")
-    public ResponseResult delete(@PathVariable(value = "id", required = false) int id){
+    public ResponseResult deleteType(@PathVariable(value = "id", required = false) int id){
         JSONObject resObject = new JSONObject();
         try{
             commentService.delete(id);

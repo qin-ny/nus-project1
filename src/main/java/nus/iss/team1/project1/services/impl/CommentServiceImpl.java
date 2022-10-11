@@ -35,8 +35,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> get(String canteenID) {
-        return commentDao.getComment(canteenID);
+    public List<Comment> get(String canteenID, String userID) {
+        return commentDao.getComment(canteenID, userID);
     }
 
     @Override
