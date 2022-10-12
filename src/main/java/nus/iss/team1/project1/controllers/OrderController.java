@@ -57,7 +57,7 @@ public class OrderController {
                         order.getId(), orderItem.getDish_id());
                 Dish dish = dishService.getDishByID(orderItem.getDish_id());
                 dishService.update(orderItem.getDish_id(), null, null, null,
-                        null, dish.getSales_num_thirty()+orderItem.getNumber(), null);
+                        null, dish.getSales_num_thirty()+orderItem.getNumber(), null, null);
             }
             int resultID = customerService.update(order.getUser_id(),(int)order.getTotal_fee()*100);
             return ResponseResult.success(order.getId());

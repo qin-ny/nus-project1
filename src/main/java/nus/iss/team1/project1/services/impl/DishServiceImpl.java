@@ -62,7 +62,8 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public int update(Integer id, String name, String price, String description, String type, Integer sales_num_thirty, String stock){
+    public int update(Integer id, String name, String price, String description,
+                      String type, Integer sales_num_thirty, String stock, Integer availability){
 //        if (name!=null || price!=0.0D || description != null || type != null) {
 //
 //        }
@@ -71,7 +72,7 @@ public class DishServiceImpl implements DishService {
             newPrice = Double.parseDouble(price);
         }
 
-        dishDao.update(id, name, newPrice, description, type, sales_num_thirty, stock);
+        dishDao.update(id, name, newPrice, description, type, sales_num_thirty, stock, availability);
         return id;
     }
 

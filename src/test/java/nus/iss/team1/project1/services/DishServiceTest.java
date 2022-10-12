@@ -125,9 +125,9 @@ class DishServiceTest {
         dish1.setSales_num_thirty(20);
         dish1.setId(1);
         Mockito.doNothing().when(dishMockDao).update(1,"Ultra Mac",15,"Double Ham",
-                "1",20,"50");
+                "1",20,"50", 0);
         int result = dishService.update(1,"Ultra Mac","15","Double Ham",
-                "1",20,"50");
+                "1",20,"50", 1);
         Assertions.assertEquals(1,result);
     }
 

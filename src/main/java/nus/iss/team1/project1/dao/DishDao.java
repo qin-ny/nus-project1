@@ -56,12 +56,15 @@ public interface DishDao {
             " <when test='stock!=null'>" +
             " ,stock = #{stock}" +
             " </when>" +
-            " where id = #{id}" +
+            " <when test='availability!=null'>" +
+            " ,availability = #{availability}" +
+            " </when>" +
+            "where id = #{id}" +
             " </script>" )
     public void update(@Param("id") Integer id, @Param("name")String name,
                        @Param("price") double price, @Param("description") String description,
                        @Param("dish_type_id") String type_id, @Param("sales_num_thirty") Integer sales_num_thirty,
-                       @Param("stock") String stock);
+                       @Param("stock") String stock, @Param("availability") Integer availability);
 
 
     @Select(" <script>"  +

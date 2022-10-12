@@ -142,8 +142,13 @@ public class DishController {
             String description = jsonObject.getString("description");
             String type = jsonObject.getString("type");
             String stock = jsonObject.getString("stock");
+            Integer availability = null;
+            if(jsonObject.containsKey("availability")) {
+                availability = jsonObject.getBoolean("availability") ? 1:0;
+            }
 
-            int retID = dishService.update(id,name,price,description,type,null,stock);
+
+            int retID = dishService.update(id,name,price,description,type,null,stock,availability);
             return ResponseResult.success(retID);
         }
         catch (Exception e){
