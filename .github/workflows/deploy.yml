@@ -52,15 +52,15 @@ jobs:
           cd target
           ls
         
-      - name: transit  to Staging server
+      - name: transit jar file to server
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           ARGS: "-rltgoDzvO"
-          SOURCE: "dist/"
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: /app/target/  #注意这里
+          SOURCE: "target/project1-0.0.1-SNAPSHOT.jar"
+          REMOTE_HOST: ${{ secrets.HOST }}
+#           REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: /root/project-1/dockerfiles/platform/project1-0.0.1-SNAPSHOT.jar  #注意这里
 #           EXCLUDE: "/dist/, /node_modules/"
 
 
