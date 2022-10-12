@@ -25,14 +25,14 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: ls -a via ssh
-        uses: garygrossgarten/github-action-ssh@release
-        with:
-          command: ls -a
-          host: ${{ secrets.HOST }}
-          username: root
-          port: 22
-          privateKey: ${{ secrets.PRIVATE_KEY}}
+#       - name: ls -a via ssh
+#         uses: garygrossgarten/github-action-ssh@release
+#         with:
+#           command: ls -a
+#           host: ${{ secrets.HOST }}
+#           username: root
+#           port: 22
+#           privateKey: ${{ secrets.PRIVATE_KEY}}
 
       - name: Set up JDK 17
         uses: actions/setup-java@v2
@@ -47,10 +47,10 @@ jobs:
 #         run: mvn --batch-mode -Dmaven.test.failure.ignore=true test #defer the response to failed tests to the test processing action
 
       # Runs a single command using the runners shell
-      - name: Packing platform
-        run: |
-          cd target
-          ls
+#       - name: Packing platform
+#         run: |
+#           cd target
+#           ls
         
       - name: transit jar file to server
         uses: easingthemes/ssh-deploy@main
@@ -62,6 +62,18 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: /root/project-1/dockerfiles/platform/project1-0.0.1-SNAPSHOT.jar  #注意这里
 #           EXCLUDE: "/dist/, /node_modules/"
+
+      - name: deploy platform
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: |
+            cd /root/project-1/dockerfiles/platform
+            docker build -t project1:1.0.1 .
+            kubectl delete pod $(kubectl get pod -n project1 | grep platform | awk '{print $1}') -n project1
+          host: ${{ secrets.HOST }}
+          username: root
+          port: 22
+          privateKey: ${{ secrets.PRIVATE_KEY}}
 
 
       # Runs a set of commands using the runners shell
