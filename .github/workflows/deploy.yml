@@ -43,8 +43,8 @@ jobs:
       - name: Build Platform
         run: mvn --batch-mode -DskipTests package #building the application, but skipping the tests
 
-#       - name: Test
-#         run: mvn --batch-mode -Dmaven.test.failure.ignore=true test #defer the response to failed tests to the test processing action
+      - name: Test
+        run: mvn --batch-mode -Dmaven.test.failure.ignore=true test #defer the response to failed tests to the test processing action
 
       # Runs a single command using the runners shell
 #       - name: Packing platform
