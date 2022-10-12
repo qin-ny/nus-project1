@@ -48,7 +48,9 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Packing platform
-        run: ls
+        run: |
+          cd target,
+          ls.
         
       - name: transit  to Staging server
         uses: easingthemes/ssh-deploy@main
