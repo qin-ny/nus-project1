@@ -8,4 +8,5 @@ public interface OrderService {
     public Order create(String orderTime, double totalFee, Integer status, Integer canteenID, Integer userID);
     public List<Order> get(String canteenID,String userID, String status, String orderType);
     public int updateStatus(String orderID, String status);
+    public int delete(Integer id);
 }

@@ -39,6 +39,7 @@ public class OrderController {
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     public ResponseResult create(@RequestBody String json) {
+        Order order = null;
         try{
             json = new String(json.getBytes(), Charset.forName("utf-8"));
             JSONObject jsonObject = JSONObject.parseObject(json);
@@ -50,19 +51,30 @@ public class OrderController {
             String strOrderItems = jsonObject.getString("orderItems");
             List<OrderItem> orderItems = JSON.parseArray(strOrderItems, OrderItem.class);
 
-            Order order = orderService.create(orderTime,totalFee,status,canteenID,userID);
+            order = orderService.create(orderTime,totalFee,status,canteenID,userID);
 
-            for (OrderItem orderItem: orderItems) {
-                OrderItem savedOrderItem = orderItemService.create(orderItem.getName(), orderItem.getNumber(), orderItem.getFee(),
-                        order.getId(), orderItem.getDish_id());
-                Dish dish = dishService.getDishByID(orderItem.getDish_id());
-                dishService.update(orderItem.getDish_id(), null, null, null,
-                        null, dish.getSales_num_thirty()+orderItem.getNumber(), null, null);
+            try {
+                for (OrderItem orderItem: orderItems) {
+                    OrderItem savedOrderItem = orderItemService.create(orderItem.getName(), orderItem.getNumber(), orderItem.getFee(),
+                            order.getId(), orderItem.getDish_id());
+                    Dish dish = dishService.getDishByID(orderItem.getDish_id());
+                    dishService.update(orderItem.getDish_id(), null, null, null,
+                            null, dish.getSales_num_thirty()+orderItem.getNumber(), null, null);
+                }
+            } catch (Exception e) {
+                if (order != null) {
+                    orderService.delete(order.getId());
+                }
+                return ResponseResult.error(555, "invalid order item", null);
             }
-            int resultID = customerService.update(order.getUser_id(),(int)order.getTotal_fee()*100);
+
+            int resultID = customerService.update(order.getUser_id(),(int)order.getTotal_fee()*100, null);
             return ResponseResult.success(order.getId());
         }
         catch (Exception e){
+            if (order != null) {
+                orderService.delete(order.getId());
+            }
             return ResponseResult.internalError(e);
         }
     }

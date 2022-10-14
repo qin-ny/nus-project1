@@ -20,8 +20,8 @@ public class CustomerServiceImpl implements CustomerService {
         return customer.getId();
     }
     @Override
-    public int update(Integer user_id,Integer rewardPoint){
-        customerDao.update(user_id, rewardPoint);
+    public int update(Integer user_id,Integer rewardPoint, Integer isMember){
+        customerDao.update(user_id, rewardPoint, isMember);
         return user_id;
     }
     @Override

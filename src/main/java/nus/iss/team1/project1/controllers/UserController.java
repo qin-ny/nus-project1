@@ -137,9 +137,8 @@ public class UserController {
             String phone = jsonObject.getString("phone");
             String email = jsonObject.getString("email");
             String NRIC = jsonObject.getString("NRIC");
-            String type = jsonObject.getString("type");
 
-            int result = userService.modifyUser(userName,gender,phone,email,NRIC,type);
+            int result = userService.modifyUser(userName,gender,phone,email,NRIC,null);
             switch (result) {
                 case -1:
                     return ResponseResult.error("UserName Already Exist", null);

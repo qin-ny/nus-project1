@@ -46,4 +46,10 @@ public class OrderServiceImpl implements OrderService {
         orderDao.updateStatus(orderID,status);
         return 1;
     }
+
+    @Override
+    public int delete(Integer id) {
+        orderDao.delete(id);
+        return id;
+    }
 }

@@ -68,9 +68,9 @@ public interface OrderDao {
             " </script>" )
     public Integer getOrderNumByCanteenID(@Param("canteen_id") String canteen_id);
 
-//    @Delete(" <script>"  +
-//            " delete from project1.Order where id in #{orderID}" +
-//            " </script>" )
-//    public void delete(@Param("orderID") String orderID);
+    @Delete(" <script>"  +
+            " delete from project1.Order where id in #{id}" +
+            " </script>" )
+    public void delete(@Param("id") Integer id);
 
 }

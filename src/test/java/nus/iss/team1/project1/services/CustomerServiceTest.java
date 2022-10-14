@@ -31,8 +31,8 @@ class CustomerServiceTest {
         customer.setId(1);
         customer.setIs_member(1);
         customer.setReward_points(5000);
-        Mockito.doNothing().when(customerMockDao).update(1,5000);
-        int result = customerService.update(1,5000);
+        Mockito.doNothing().when(customerMockDao).update(1,5000, null);
+        int result = customerService.update(1,5000, null);
         Assertions.assertEquals(1,result);
     }
 
