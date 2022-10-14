@@ -60,7 +60,7 @@ jobs:
           SOURCE: "target/project1-0.0.1-SNAPSHOT.jar"
           REMOTE_HOST: ${{ secrets.HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: /root/project-1/dockerfiles/platform/project1-0.0.1-SNAPSHOT.jar  #注意这里
+          TARGET: /root/project-1/dockerfiles/platform/project1.jar  #注意这里
 #           EXCLUDE: "/dist/, /node_modules/"
 
       - name: deploy platform
