@@ -1,7 +1,6 @@
 package nus.iss.team1.project1.controllers;
 
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import nus.iss.team1.project1.dao.CustomerDao;
 import nus.iss.team1.project1.services.CustomerService;
 import nus.iss.team1.project1.utils.ResponseResult;

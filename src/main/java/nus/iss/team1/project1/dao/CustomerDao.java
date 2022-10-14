@@ -1,6 +1,5 @@
 package nus.iss.team1.project1.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import nus.iss.team1.project1.models.Customer;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
