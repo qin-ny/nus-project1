@@ -21,7 +21,8 @@ public interface OrderDao {
     public void create(Order order);
 
     @Select(" <script>"  +
-            " select id,create_time,order_time,total_fee,status,user_id,canteen_id from project1.Order where 1=1" +
+            " select a.id,a.create_time,a.order_time,a.total_fee,a.status,a.user_id,a.canteen_id,b.username" +
+            " from project1.Order a,project1.User b where a.user_id = b.id " +
             " <when test='canteenID!=null'>" +
             " and canteen_id = #{canteenID}" +
             " </when>" +
