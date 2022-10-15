@@ -62,8 +62,11 @@ jobs:
 # #           mysql password: ${{ secrets.DatabasePassword }} # Required if "mysql user" exists. The password for the "mysql user"
       - name: Init Database
         run: |
-          mysql –uroot -p${{ secrets.DATABASEPASSWORD }} -h127.0.0.1 -e 'show databases'
-          mysql –uroot -p${{ secrets.DATABASEPASSWORD }} -h127.0.0.1 -Dproject1<./src/main/resources/sql/base.sql
+          mysql -uroot -p${{ secrets.DATABASEPASSWORD }} -hlocalhost -e 'CREATE database project1'
+      - run:
+          mysql –uroot -p${{ secrets.DATABASEPASSWORD }} -hlocalhost -e 'show databases'
+      - run:
+          mysql –uroot -p${{ secrets.DATABASEPASSWORD }} -hlocalhost -Dproject1<./src/main/resources/sql/base.sql
 
       - name: Build Platform
         run: mvn --batch-mode -DskipTests package #building the application, but skipping the tests
