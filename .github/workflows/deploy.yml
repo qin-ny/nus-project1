@@ -45,6 +45,7 @@ jobs:
           mysql-version: '8.0'
           root-password: ${{ secrets.DATABASEPASSWORD }}
       - run: mysql -uroot -p${{ secrets.DATABASEPASSWORD }} -h127.0.0.1 -e 'CREATE database project1'
+      - run: mysql –uroot -p${{ secrets.DATABASEPASSWORD }} -h127.0.0.1 -e 'show databases'
       - run: mysql –uroot -p${{ secrets.DATABASEPASSWORD }} -h127.0.0.1 -Dproject1<./src/main/resources/sql/base.sql
           
 #       - name: Init Database
