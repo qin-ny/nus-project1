@@ -53,9 +53,9 @@ jobs:
           mysql user: 'root' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
           mysql password: ${{ secrets.DATABASEPASSWORD }} # Required if "mysql user" exists. The password for the "mysql user"
 
-#       - name: Set DNS for Database
-#         run: |
-#           cat /etc/hosts
+      - name: Init Database
+        run: |
+          mysql –uroot –p${{ secrets.DATABASEPASSWORD }} -Dproject1<./src/main/resources/sql/base.sql
 #           echo "127.0.0.1 database-service" >> /etc/hosts
 
       - name: Build Platform
