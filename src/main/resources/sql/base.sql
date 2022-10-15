@@ -141,3 +141,5 @@ CREATE TABLE IF NOT EXISTS project1.`Member`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 
+ALTER TABLE `project1`.`User`
+CHANGE COLUMN `name` `name` VARCHAR(32) CHARACTER SET 'utf8' NULL ;
