@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface DishService {
     public int create(String name, double price, String description, Integer type_id, Integer canteenID,Integer stock);
-    public List<Dish> get(String canteenID,String type_id, String orderType);
+    public List<Dish> get(String canteenID,Integer type_id, String orderType);
     public Dish getDishByID(Integer id);
     public int update(Integer id, String name, String price, String description,
-                      String type, Integer sales_num_thirty, String stock, Integer availability);
+                      Integer type_id, Integer sales_num_thirty, Integer stock, Integer availability);
     public int delete(Integer id);
 }

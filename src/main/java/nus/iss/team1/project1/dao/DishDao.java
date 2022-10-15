@@ -63,8 +63,8 @@ public interface DishDao {
             " </script>" )
     public void update(@Param("id") Integer id, @Param("name")String name,
                        @Param("price") double price, @Param("description") String description,
-                       @Param("dish_type_id") String type_id, @Param("sales_num_thirty") Integer sales_num_thirty,
-                       @Param("stock") String stock, @Param("availability") Integer availability);
+                       @Param("dish_type_id") Integer type_id, @Param("sales_num_thirty") Integer sales_num_thirty,
+                       @Param("stock") Integer stock, @Param("availability") Integer availability);
 
 
     @Select(" <script>"  +
@@ -76,7 +76,7 @@ public interface DishDao {
             " and dish_type_id = #{type_id}" +
             " </when>" +
             " </script>" )
-    public List<Dish> getDish(@Param("canteenID") String canteenID,@Param("type_id") String type_id);
+    public List<Dish> getDish(@Param("canteenID") String canteenID,@Param("type_id") Integer type_id);
 
     @Select(" <script>"  +
             " select * from Dish where " +
@@ -94,7 +94,7 @@ public interface DishDao {
             " </when>" +
             " order by price ${order}" +
             " </script>" )
-    public List<Dish> getDishOrderByPrice(@Param("canteenID") String canteenID,@Param("type_id") String type_id,@Param("order") String order);
+    public List<Dish> getDishOrderByPrice(@Param("canteenID") String canteenID,@Param("type_id") Integer type_id,@Param("order") String order);
 
     @Select(" <script>"  +
             " select * from Dish where 1=1" +
@@ -106,7 +106,7 @@ public interface DishDao {
             " </when>" +
             " order by sales_num_thirty desc" +
             " </script>")
-    public List<Dish> getDishOrderBySales(@Param("canteenID") String canteenID,@Param("type_id") String type_id);
+    public List<Dish> getDishOrderBySales(@Param("canteenID") String canteenID,@Param("type_id") Integer type_id);
 
     @Delete(" <script>"  +
             " delete from Dish where id = #{id}" +

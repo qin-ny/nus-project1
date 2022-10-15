@@ -40,7 +40,7 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public List<Dish> get(String canteenID,String type_id, String orderType){
+    public List<Dish> get(String canteenID,Integer type_id, String orderType){
         String order;
         if(orderType!= null&& orderType.equals("1")){
              order = "asc";
@@ -63,7 +63,7 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public int update(Integer id, String name, String price, String description,
-                      String type, Integer sales_num_thirty, String stock, Integer availability){
+                      Integer type_id, Integer sales_num_thirty, Integer stock, Integer availability){
 //        if (name!=null || price!=0.0D || description != null || type != null) {
 //
 //        }
@@ -72,7 +72,7 @@ public class DishServiceImpl implements DishService {
             newPrice = Double.parseDouble(price);
         }
 
-        dishDao.update(id, name, newPrice, description, type, sales_num_thirty, stock, availability);
+        dishDao.update(id, name, newPrice, description, type_id, sales_num_thirty, stock, availability);
         return id;
     }
 

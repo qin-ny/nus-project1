@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller // This means that this class is a Controller
@@ -100,7 +102,7 @@ public class DishController {
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
     public ResponseResult get(@RequestParam(name = "canteen_id", required = false) String canteenID,
-                              @RequestParam(name = "type_id", required = false) String typeID,
+                              @RequestParam(name = "type_id", required = false) Integer typeID,
                               @RequestParam(name = "order_type", required = false) String orderType) {
         try{
             List<Dish> list = dishService.get(canteenID,typeID,orderType);
@@ -116,12 +118,16 @@ public class DishController {
     @RequestMapping(value = "/type_group",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
     public ResponseResult getByType(@RequestParam(name = "canteen_id") String canteenID) {
         try{
-            JSONObject content = new JSONObject();
+            ArrayList<JSONObject> content = new ArrayList<>();
 
             List<DishType> dishTypes = dishTypeService.get(canteenID, null);
             for (DishType dishType: dishTypes) {
-                List<Dish> list = dishService.get(canteenID, String.valueOf(dishType.getId()), null);
-                content.put(dishType.getType(), JSON.toJSON(list));
+                JSONObject typeContent = new JSONObject();
+                List<Dish> list = dishService.get(canteenID, dishType.getId(), null);
+                typeContent.put("type", dishType.getType());
+                typeContent.put("id", dishType.getId());
+                typeContent.put("dishes", list);
+                content.add(typeContent);
             }
             return ResponseResult.success(content);
         }
@@ -140,15 +146,15 @@ public class DishController {
             String name = jsonObject.getString("name");
             String price = jsonObject.getString("price");
             String description = jsonObject.getString("description");
-            String type = jsonObject.getString("type");
-            String stock = jsonObject.getString("stock");
+            Integer typeID = jsonObject.getInteger("type_id");
+            Integer stock = jsonObject.getInteger("stock");
             Integer availability = null;
             if(jsonObject.containsKey("availability")) {
                 availability = jsonObject.getBoolean("availability") ? 1:0;
             }
 
 
-            int retID = dishService.update(id,name,price,description,type,null,stock,availability);
+            int retID = dishService.update(id,name,price,description,typeID,null,stock,availability);
             return ResponseResult.success(retID);
         }
         catch (Exception e){
@@ -218,17 +224,34 @@ public class DishController {
     @RequestMapping(value = {
             "/type/{id}"
     },method = RequestMethod.DELETE,produces = "application/json; charset=utf-8")
-    public ResponseResult deleteType(@PathVariable(value = "id") List<String> idList) {
+    public ResponseResult deleteType(@PathVariable(value = "id") List<Integer> idList) {
         try{
-            for (String id: idList) {
+            for (Integer id: idList) {
                 List<Dish> dishList = dishService.get(null, id, null);
                 for (Dish dish: dishList) {
                     ImageUtils imageUtils = new ImageUtils(String.valueOf(dish.getCanteen_id()), String.valueOf(dish.getId()));
                     imageUtils.delete();
                 }
-                dishTypeService.delete(Integer.parseInt(id));
+                dishTypeService.delete(id);
             }
             return ResponseResult.success();
+        }
+        catch (Exception e){
+            return ResponseResult.internalError(e);
+        }
+    }
+
+    @Token
+    @ResponseBody
+    @RequestMapping(value = "/type/{id}",method = RequestMethod.PUT,produces = "application/json; charset=utf-8")
+    public ResponseResult updateType(@RequestBody String json, @PathVariable("id") Integer id) {
+        try{
+            json = new String(json.getBytes(), Charset.forName("utf-8"));
+            JSONObject jsonObject = JSONObject.parseObject(json);
+            String type = jsonObject.getString("type");
+
+            int retID = dishTypeService.update(id,type);
+            return ResponseResult.success(retID);
         }
         catch (Exception e){
             return ResponseResult.internalError(e);
