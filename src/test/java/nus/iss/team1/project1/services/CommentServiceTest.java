@@ -27,6 +27,8 @@ class CommentServiceTest {
 
     @MockBean(name="commentDao")
     private CommentDao commentMockDao;
+    @MockBean(name="canteenDao")
+    private CanteenDao canteenMockDao;
 
     @Test
     public void get_CanteenComment() throws Exception{
@@ -112,6 +114,7 @@ class CommentServiceTest {
         comment.setStar(4);
         comment.setUser_id(1);
         Mockito.doNothing().when(commentMockDao).delete(1);
+        Mockito.doNothing().when(canteenMockDao).updateStar("1");
         int result = commentService.delete(1);
         Assertions.assertEquals(1,result);
     }
