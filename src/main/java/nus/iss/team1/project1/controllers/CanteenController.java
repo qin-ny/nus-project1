@@ -14,10 +14,14 @@ import nus.iss.team1.project1.services.DishService;
 import nus.iss.team1.project1.utils.ResponseResult;
 import nus.iss.team1.project1.utils.file.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -114,6 +118,39 @@ public class CanteenController {
         }
         catch (Exception e){
             return ResponseResult.internalError(e);
+        }
+    }
+
+    @Token
+    @ResponseBody
+    @RequestMapping(value = "/image",method = RequestMethod.POST)
+    public ResponseResult uploadImage(@RequestParam("image") MultipartFile file,
+                                      @RequestParam("canteen_id") String canteenID) {
+        try{
+            ImageUtils imageUtils = new ImageUtils(canteenID, null);
+            if(!imageUtils.validateFormat(file)) {
+                return ResponseResult.error("invalid image format", null);
+            }
+            imageUtils.upload(file);
+            return ResponseResult.success();
+        }
+        catch (Exception e){
+            return ResponseResult.internalError(e);
+        }
+    }
+
+    @Token
+    @ResponseBody
+    @RequestMapping(value = "/image",method = RequestMethod.GET)
+    public ResponseEntity<Resource> getImage(@RequestParam("canteen_id") String canteenID) {
+        try{
+            ImageUtils imageUtils = new ImageUtils(canteenID, null);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(imageUtils.getImage());
+        }
+        catch (Exception e){
+            return ResponseEntity.notFound().build();
         }
     }
 
