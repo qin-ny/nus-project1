@@ -89,6 +89,8 @@ public class DishController {
                                              @RequestParam("dish_id") String dishID) {
         try{
             ImageUtils imageUtils = new ImageUtils(canteenID, dishID);
+            FileSystemResource fileSystemResource = imageUtils.getImage();
+            if (fileSystemResource == null) return ResponseEntity.notFound().build();
             return ResponseEntity.ok()
                     .contentType(MediaType.IMAGE_JPEG)
                     .body(imageUtils.getImage());

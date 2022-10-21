@@ -34,7 +34,9 @@ public class ImageUtils {
     public FileSystemResource getImage() {
         String resourcePath = path;
         resourcePath = resourcePath + "/" + Objects.requireNonNullElse(dishID, CANTEEN_IMAGE_NAME);
-        return new FileSystemResource(resourcePath);
+        FileSystemResource fileSystemResource = new FileSystemResource(resourcePath);
+        if(fileSystemResource.exists()) return fileSystemResource;
+        else return null;
     }
 
     public void delete() {

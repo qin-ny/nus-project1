@@ -14,6 +14,7 @@ import nus.iss.team1.project1.services.DishService;
 import nus.iss.team1.project1.utils.ResponseResult;
 import nus.iss.team1.project1.utils.file.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -145,9 +146,11 @@ public class CanteenController {
     public ResponseEntity<Resource> getImage(@RequestParam("canteen_id") String canteenID) {
         try{
             ImageUtils imageUtils = new ImageUtils(canteenID, null);
+            FileSystemResource fileSystemResource = imageUtils.getImage();
+            if (fileSystemResource == null) return ResponseEntity.notFound().build();
             return ResponseEntity.ok()
                     .contentType(MediaType.IMAGE_JPEG)
-                    .body(imageUtils.getImage());
+                    .body(fileSystemResource);
         }
         catch (Exception e){
             return ResponseEntity.notFound().build();
