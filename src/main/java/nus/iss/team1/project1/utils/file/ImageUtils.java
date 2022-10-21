@@ -23,7 +23,7 @@ public class ImageUtils {
     }
 
     public boolean validateFormat(MultipartFile image) {
-        String pattern = ".*(.jpg|.png)$";
+        String pattern = ".*(.jpg|.png|.jpeg)$";
         return Pattern.matches(pattern, image.getOriginalFilename());
     }
 
