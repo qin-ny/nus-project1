@@ -27,7 +27,14 @@ public interface CanteenDao {
     public Canteen getByID(@Param("id") Integer id);
 
     @Select(" <script>"  +
-            " select * from Canteen where 1=1" +
+            " select * from Canteen a" +
+            " <when test='type!=null'>" +
+            ", Canteen_CanteenType b " +
+            " </when>" +
+            " where 1=1" +
+            " <when test='type!=null'>" +
+            " and a.id =  b.canteen_id and b.canteen_type_id = #{type}"+
+            " </when>" +
             " <when test='userID!=null'>" +
             " and user_id = #{userID}" +
             " </when>" +
@@ -57,7 +64,7 @@ public interface CanteenDao {
                     many = @Many(select = "nus.iss.team1.project1.dao.OrderDao.getOrderNumByCanteenID")
             )
     })
-    public List<Canteen> get(@Param("userID") String userID,@Param("orderType") String orderType,@Param("keyword") String keyword);
+    public List<Canteen> get(@Param("userID") String userID,@Param("orderType") String orderType,@Param("keyword") String keyword,@Param("type") String type);
 
     @Update(" <script>"  +
             " update Canteen set id=#{id} " +

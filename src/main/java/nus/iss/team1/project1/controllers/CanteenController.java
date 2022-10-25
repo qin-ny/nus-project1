@@ -70,16 +70,18 @@ public class CanteenController {
     @ResponseBody
     @RequestMapping(value = "",method = RequestMethod.GET,produces = "application/json; charset=utf-8")
     public ResponseResult get(@RequestParam(name = "user_id", required = false) String userID,
-                          @RequestParam(name = "order_type", required = false) String orderType,
-                          @RequestParam(name = "keyword", required = false) String keyword) {
+                              @RequestParam(name = "order_type", required = false) String orderType,
+                              @RequestParam(name = "keyword", required = false) String keyword,
+                              @RequestParam(name = "type", required = false) String type) {
         try{
-            List<Canteen> list = canteenService.get(userID,orderType,keyword);
+            List<Canteen> list = canteenService.get(userID,orderType,keyword,type);
             return ResponseResult.success(list);
         }
         catch (Exception e){
             return ResponseResult.internalError(e);
         }
     }
+
 
     @Token
     @ResponseBody

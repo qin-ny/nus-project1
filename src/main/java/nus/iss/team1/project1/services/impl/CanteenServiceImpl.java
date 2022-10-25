@@ -51,11 +51,11 @@ public class CanteenServiceImpl implements CanteenService {
     }
 
     @Override
-    public List<Canteen> get(String userID,String orderType, String keyword){
+    public List<Canteen> get(String userID,String orderType, String keyword, String type){
         if(keyword != null) {
             keyword = "%" + keyword + "%";
         }
-        return canteenDao.get(userID,orderType,keyword);
+        return canteenDao.get(userID,orderType,keyword,type);
     }
 
     @Override
