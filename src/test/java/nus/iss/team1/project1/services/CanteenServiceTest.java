@@ -54,8 +54,8 @@ class CanteenServiceTest {
         canteens.add(canteen1);
         canteens.add(canteen2);
         canteens.add(canteen3);
-        Mockito.when(canteenMockDAO.get("1","1", "%Canteen%")).thenReturn(canteens);
-        List<Canteen> c = canteenService.get("1","1", "Canteen");
+        Mockito.when(canteenMockDAO.get("1","1", "%Canteen%", null)).thenReturn(canteens);
+        List<Canteen> c = canteenService.get("1","1", "Canteen", null);
         Assertions.assertEquals(3,c.size());
         Assertions.assertEquals("Hong Kong Canteen",c.get(0).getName());
         Assertions.assertEquals("Guang Zhou Canteen",c.get(1).getName());
