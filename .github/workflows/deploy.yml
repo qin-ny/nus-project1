@@ -76,6 +76,18 @@ jobs:
       - name: Test
         run: mvn --batch-mode -Dmaven.test.failure.ignore=false test #defer the response to failed tests to the test processing action
 
+      - name: Performance Testing
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: |
+            cd /root/performance-test
+            sh performance-testing.sh
+            cat performance-result.log
+          host: ${{ secrets.HOST }}
+          username: root
+          port: 22
+          privateKey: ${{ secrets.PRIVATE_KEY}}
+
       # Runs a single command using the runners shell
 #       - name: Packing platform
 #         run: |
